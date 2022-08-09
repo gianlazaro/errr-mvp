@@ -3,19 +3,19 @@ import styles from '../../styles/QuestionPage.module.css'
 import { useState, useEffect } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import axios from 'axios';
-import { getDoc, getDocs, doc, query, collection, where } from 'firebase/firestore';
+import { getDoc, getDocs, doc, query, collection, where, deleteDoc } from 'firebase/firestore';
 import { db } from '../../config/firebase';
 
 export async function getServerSideProps(ctx) {
-  const {questionId} = ctx.params;
+  const { questionId } = ctx.params;
   async function fetchData() {
     let resultingObj = {};
     const questionsRef = doc(db, 'questions', questionId);
     const question = await getDoc(questionsRef);
-    resultingObj.question = question.data();
+    resultingObj.question = {...question.data(), questionId: question.id};
 
     // means that person does not have access to question, leave
-    if(!resultingObj.question) {
+    if (!resultingObj.question) {
       return {
         redirect: {
           destination: '/'
@@ -28,7 +28,7 @@ export async function getServerSideProps(ctx) {
     const answerQuery = query(collection(db, 'answers'), where('questionId', '==', questionId));
     const docs = await getDocs(answerQuery);
     docs.forEach((doc) => {
-      answers.push(doc.data());
+      answers.push({ ...doc.data(), answerId: doc.id });
     })
     resultingObj.answers = answers;
     return resultingObj;
@@ -50,7 +50,7 @@ export default function QuestionPage({ data: qna }) {
     router.replace(router.asPath);
   }
 
-  if(!user) {
+  if (!user) {
     router.push('/');
   }
 
@@ -65,6 +65,26 @@ export default function QuestionPage({ data: qna }) {
     });
 
     refreshData();
+  }
+
+  function handleDeleteAnswer(ans) {
+    if (user.uid === ans.answerAuthor.uid) {
+      deleteDoc(doc(db, 'answers', ans.answerId)).then(() => {
+        refreshData();
+      })
+    } else {
+      console.log('you didnt ask this question?');
+    }
+  }
+
+  function handleDeleteQuestion(ques) {
+    console.log(ques)
+    if (user.uid === ques.questionAsker.uid) {
+      deleteDoc(doc(db, 'questions', ques.questionId)).then(() => {
+        router.push('/');
+        return;
+      })
+    }
   }
 
   return (
@@ -82,6 +102,12 @@ export default function QuestionPage({ data: qna }) {
               <svg viewBox="0 0 36 36" fill="none" role="img" xmlns="http://www.w3.org/2000/svg" width="25" height="25"><title>Coretta Scott</title><mask id="mask__beam" maskUnits="userSpaceOnUse" x="0" y="0" width="36" height="36"><rect width="36" height="36" rx="72" fill="#FFFFFF"></rect></mask><g mask="url(#mask__beam)"><rect width="36" height="36" fill="#0c8f8f"></rect><rect x="0" y="0" width="36" height="36" transform="translate(5 -1) rotate(55 18 18) scale(1.1)" fill="#ffad08" rx="6"></rect><g transform="translate(7 -6) rotate(-5 18 18)"><path d="M15 20c2 1 4 1 6 0" stroke="#000000" fill="none" stroke-linecap="round"></path><rect x="14" y="14" width="1.5" height="2" rx="1" stroke="none" fill="#000000"></rect><rect x="20" y="14" width="1.5" height="2" rx="1" stroke="none" fill="#000000"></rect></g></g></svg>
             </li>
           </ul>
+          {
+            user.uid === qna.question.questionAsker.uid &&
+            <button onClick={() => handleDeleteQuestion(qna.question)}>
+              Delete
+            </button>
+          }
         </div>
       </article>
       <div className={styles.answerbox}>
@@ -101,8 +127,10 @@ export default function QuestionPage({ data: qna }) {
             </div>
             <div className={styles.answererResponse}>
               <p>{answer?.answerBody}</p>
-
             </div>
+            {user.uid === answer.answerAuthor.uid &&
+              <button onClick={(e) => handleDeleteAnswer(answer)}>delete</button>
+            }
           </article>
         ))}
       </div>
