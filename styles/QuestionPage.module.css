@@ -6,6 +6,7 @@
 }
 
 .questionWrapper {
+  position: relative;
   line-height: 1.5rem;
   display: flex;
   flex-direction: column;
@@ -14,6 +15,7 @@
   min-height: min-content;
   padding: 18px;
   border-bottom: 1px solid #eee;
+  border-radius: 6px;
 }
 
 .sectionTitle {
@@ -95,13 +97,76 @@
   border: none;
   border-radius: 0.5rem;
   color: white;
-  background: #2D82B8;
+  background: rgb(22,105,124);
+  cursor: pointer;
 }
 
 .answerbox > form input:hover {
-  background: #2976A7;
+  background: rgb(19, 89, 105);
 }
 
 .answerbox > form input:active {
-  background: #276F9D;
+  background: rgb(16, 74, 87);
+}
+
+.actionsWrapperQ{
+  position: absolute;
+  top:20px;
+  right: 10px;
+}
+
+.actionsWrapperA{
+  position: relative;
+  top:20px;
+  right: 10px;
+}
+
+.moreIcon {
+  filter: invert(99%) sepia(1%) saturate(709%) hue-rotate(173deg) brightness(56%) contrast(102%);
+}
+
+.moreIcon:hover {
+  filter: invert(99%) sepia(1%) saturate(709%) hue-rotate(173deg) brightness(30%) contrast(102%);
+}
+
+.buttonsWrapperQ {
+  width: 80px;
+  position: absolute;
+  top: 15px;
+  left: -85px;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.buttonsWrapperQ button {
+  width: 100%;
+  padding: 5px 5px;
+  border: none;
+  background: #1D1D1F;
+  color: white;
+}
+
+.buttonsWrapperQ button:hover {
+  background: #444;
+}
+
+.buttonsWrapperA {
+  width: 80px;
+  position: absolute;
+  top: 15px;
+  left: -85px;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.buttonsWrapperA button {
+  width: 100%;
+  padding: 5px 5px;
+  border: none;
+  background: #1D1D1F;
+  color: white;
+}
+
+.buttonsWrapperA button:hover {
+  background: #444;
 }

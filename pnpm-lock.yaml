@@ -2,6 +2,7 @@ lockfileVersion: 5.4
 
 specifiers:
   axios: ^0.27.2
+  boring-avatars: ^1.7.0
   eslint: 8.21.0
   eslint-config-next: 12.2.4
   firebase: ^9.9.2
@@ -12,6 +13,7 @@ specifiers:
 
 dependencies:
   axios: 0.27.2
+  boring-avatars: 1.7.0
   firebase: 9.9.2
   next: 12.2.4_biqbaboplfbrettd7655fr4n2y
   react: 18.2.0
@@ -964,6 +966,10 @@ packages:
 
   /balanced-match/1.0.2:
     resolution: {integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==}
+
+  /boring-avatars/1.7.0:
+    resolution: {integrity: sha512-ZNHd8J7C/V0IjQMGQowLJ5rScEFU23WxePigH6rqKcT2Esf0qhYvYxw8s9i3srmlfCnCV00ddBjaoGey1eNOfA==}
+    dev: false
 
   /brace-expansion/1.1.11:
     resolution: {integrity: sha512-iCuPHDFgrHX7H2vEI/5xpz07zSHB00TpugqhmYtVmMO6518mCuRMoOYFldEBl0g187ufozdaHgWKcYFb61qGiA==}

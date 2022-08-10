@@ -3,8 +3,10 @@ import styles from '../../styles/QuestionPage.module.css'
 import { useState, useEffect } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import axios from 'axios';
-import { getDoc, getDocs, doc, query, collection, where, deleteDoc } from 'firebase/firestore';
+import { getDoc, getDocs, doc, query, collection, where, deleteDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../../config/firebase';
+import Image from 'next/image';
+import Avatar from 'boring-avatars';
 
 export async function getServerSideProps(ctx) {
   const { questionId } = ctx.params;
@@ -12,7 +14,7 @@ export async function getServerSideProps(ctx) {
     let resultingObj = {};
     const questionsRef = doc(db, 'questions', questionId);
     const question = await getDoc(questionsRef);
-    resultingObj.question = {...question.data(), questionId: question.id};
+    resultingObj.question = { ...question.data(), questionId: question.id };
 
     // means that person does not have access to question, leave
     if (!resultingObj.question) {
@@ -46,12 +48,17 @@ export default function QuestionPage({ data: qna }) {
   const router = useRouter();
   const { questionId } = router.query;
   const { user } = useAuth();
+  const [isEditableQ, setIsEditableQ] = useState(false);
+  const [isEditableA, setIsEditableA] = useState(false);
+  const [isVisibleQ, setIsVisibleQ] = useState(false);
+  const [isVisibleA, setIsVisibleA] = useState(false);
   const refreshData = () => {
     router.replace(router.asPath);
   }
 
   if (!user) {
     router.push('/');
+    return;
   }
 
   async function handleSubmit(e) {
@@ -77,8 +84,18 @@ export default function QuestionPage({ data: qna }) {
     }
   }
 
+  function handleUpdateAnswer(ans) {
+    if (user.uid === ans.answerAuthor.uid) {
+      setIsEditableA(!isEditableA);
+      const answerBody = document.querySelector('#answerBody').textContent;
+
+      updateDoc(doc(db, 'answers', ans.answerId), {
+        answerBody
+      });
+    }
+  }
+
   function handleDeleteQuestion(ques) {
-    console.log(ques)
     if (user.uid === ques.questionAsker.uid) {
       deleteDoc(doc(db, 'questions', ques.questionId)).then(() => {
         router.push('/');
@@ -87,26 +104,55 @@ export default function QuestionPage({ data: qna }) {
     }
   }
 
+  function handleUpdateQuestion(ques) {
+    if (user.uid === ques.questionAsker.uid) {
+      setIsEditableQ(!isEditableQ);
+      const questionTitle = document.querySelector('#questionTitle').textContent;
+      const questionBody = document.querySelector('#questionBody').textContent;
+      console.log(questionTitle);
+
+      updateDoc(doc(db, 'questions', ques.questionId), {
+        questionTitle,
+        questionBody
+      });
+    }
+  }
+
   return (
     <main className={styles.main}>
       <article className={styles.questionWrapper}>
-        <h3 className={styles.sectionTitle}>{qna.question?.questionTitle}</h3>
-        <p>
+        <h3 className={styles.sectionTitle} contentEditable={isEditableQ} id="questionTitle">{qna.question?.questionTitle}</h3>
+        <p id="questionBody" contentEditable={isEditableQ}>
           {qna.question?.questionBody}
         </p>
         <div className={styles.bottomBar}>
           <span>Asked by {qna.question?.questionAsker.displayName}</span>
-          <ul className={styles.watcherList}>
-            <li><svg viewBox="0 0 36 36" fill="none" role="img" xmlns="http://www.w3.org/2000/svg" width="25" height="25"><title>Gian Lazaro</title><mask id="mask__beam" maskUnits="userSpaceOnUse" x="0" y="0" width="36" height="36"><rect width="36" height="36" rx="72" fill="#FFFFFF"></rect></mask><g mask="url(#mask__beam)"><rect width="36" height="36" fill="#edd75a"></rect><rect x="0" y="0" width="36" height="36" transform="translate(8 -4) rotate(298 18 18) scale(1.1)" fill="#0c8f8f" rx="6"></rect><g transform="translate(4 -3) rotate(-8 18 18)"><path d="M15 20c2 1 4 1 6 0" fill="none" stroke="#FFFFFF" stroke-linecap="round"></path><rect x="11" y="14" width="1.5" height="2" rx="1" stroke="none" fill="#FFFFFF"></rect><rect x="23" y="14" width="1.5" height="2" rx="1" stroke="none" fill="#FFFFFF"></rect></g></g></svg></li>
+          {/* <ul className={styles.watcherList}>
+            <li>
+            <Avatar
+        size={25}
+        name={qna.}
+        variant="beam"
+      />
             <li>
               <svg viewBox="0 0 36 36" fill="none" role="img" xmlns="http://www.w3.org/2000/svg" width="25" height="25"><title>Coretta Scott</title><mask id="mask__beam" maskUnits="userSpaceOnUse" x="0" y="0" width="36" height="36"><rect width="36" height="36" rx="72" fill="#FFFFFF"></rect></mask><g mask="url(#mask__beam)"><rect width="36" height="36" fill="#0c8f8f"></rect><rect x="0" y="0" width="36" height="36" transform="translate(5 -1) rotate(55 18 18) scale(1.1)" fill="#ffad08" rx="6"></rect><g transform="translate(7 -6) rotate(-5 18 18)"><path d="M15 20c2 1 4 1 6 0" stroke="#000000" fill="none" stroke-linecap="round"></path><rect x="14" y="14" width="1.5" height="2" rx="1" stroke="none" fill="#000000"></rect><rect x="20" y="14" width="1.5" height="2" rx="1" stroke="none" fill="#000000"></rect></g></g></svg>
             </li>
-          </ul>
+          </ul> */}
           {
             user.uid === qna.question.questionAsker.uid &&
-            <button onClick={() => handleDeleteQuestion(qna.question)}>
-              Delete
-            </button>
+            <div className={styles.actionsWrapperQ}>
+              <Image src="/moreBtn.png" width="30px" height="30px" className={styles.moreIcon} onClick={() => setIsVisibleQ(!isVisibleQ)} />
+              {isVisibleQ &&
+                <div className={styles.buttonsWrapperQ}>
+                  <button onClick={() => handleUpdateQuestion(qna.question)}>
+                    {isEditableQ ? 'Save' : 'Update'}
+                  </button>
+                  <button onClick={() => handleDeleteQuestion(qna.question)}>
+                    Delete
+                  </button>
+                </div>
+              }
+            </div>
           }
         </div>
       </article>
@@ -119,17 +165,34 @@ export default function QuestionPage({ data: qna }) {
       <div className={styles.answers}>
         <h3 className={styles.sectionTitle}>Answers ({qna.answers?.length})</h3>
         {qna.answers?.map((answer) => (
-          <article>
+          <article key={answer.answerId}>
             <div className={styles.answerer}>
-              <svg viewBox="0 0 36 36" fill="none" role="img" xmlns="http://www.w3.org/2000/svg" width="80" height="80"><title>Maud Nathan</title><mask id="mask__beam" maskUnits="userSpaceOnUse" x="0" y="0" width="36" height="36"><rect width="36" height="36" rx="72" fill="#FFFFFF"></rect></mask><g mask="url(#mask__beam)"><rect width="36" height="36" fill="#ffad08"></rect><rect x="0" y="0" width="36" height="36" transform="translate(-3 7) rotate(87 18 18) scale(1)" fill="#73b06f" rx="36"></rect><g transform="translate(-7 3.5) rotate(-7 18 18)"><path d="M13,19 a1,0.75 0 0,0 10,0" fill="#000000"></path><rect x="12" y="14" width="1.5" height="2" rx="1" stroke="none" fill="#000000"></rect><rect x="22" y="14" width="1.5" height="2" rx="1" stroke="none" fill="#000000"></rect></g></g></svg>
+            <Avatar
+          size={40}
+          name={user.uid}
+          variant="beam"
+          onClick={()=>logout()}
+          />
               <span className={styles.answererName}>{answer.answerAuthor.displayName}</span>
               <span className={styles.answererTitle}>Assistant to the Regional Manager</span>
             </div>
             <div className={styles.answererResponse}>
-              <p>{answer?.answerBody}</p>
+              <p id="answerBody" contentEditable={isEditableA}>{answer?.answerBody}</p>
             </div>
             {user.uid === answer.answerAuthor.uid &&
-              <button onClick={(e) => handleDeleteAnswer(answer)}>delete</button>
+              <div className={styles.actionsWrapperA}>
+                <Image src="/moreBtn.png" width="30px" height="30px" className={styles.moreIcon} onClick={() => setIsVisibleA(!isVisibleA)} />
+                {
+                  isVisibleA &&
+                  <div className={styles.buttonsWrapperA}>
+                    <button onClick={(e) => handleUpdateAnswer(answer)}>
+                      {isEditableA ? 'Save' : 'Update'}
+                    </button>
+                    <button onClick={(e) => handleDeleteAnswer(answer)}>Delete</button>
+                  </div>
+
+                }
+              </div>
             }
           </article>
         ))}

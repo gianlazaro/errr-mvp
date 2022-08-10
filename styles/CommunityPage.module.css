@@ -1,12 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Serif&display=swap');
 
-.mainWrapper {
-  max-width: 700px;
+.communityPageWrapper {
+  display: flex;
+  justify-content: center;
+  width: 50%;
   margin: 0 auto;
+}
+
+.mainWrapper {
+  flex: 3;
   margin-top: 2rem;
 }
 
 .questionListItem {
+  position: relative;
   line-height: 1.5rem;
   display: flex;
   flex-direction: column;
@@ -23,12 +30,22 @@
   font-family: 'Noto Serif', serif;
 }
 
+.questionTitle a {
+  text-decoration: none;
+  font-size: 1.05rem;
+}
+
+.questionTitle a:hover {
+  text-decoration: underline;
+}
+
 .bottomBar {
   display: flex;
   color: #BBB;
   flex-direction: row;
   justify-content: space-between;
   align-items: flex-end;
+  font-size: 0.85rem;
 }
 
 .watchList {
@@ -39,75 +56,41 @@
   list-style-type: none;
 }
 
-
-.answers article {
-  display: flex;
-  height: min-content;
-  flex-direction: row;
-  gap: 1rem;
-}
-
-.answerer {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  margin: 0.5rem;
-}
-
-.answererResponse {
-  flex: 3;
-}
-
-.answererName {
-  font-weight: 600;
-}
-
-.answererTitle {
-  font-style: italic;
-  font-size: 0.85rem;
-}
-
-.answerbox {
-  margin: 2rem 0;
-}
-
-.answerbox > form {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.answerbox > form textarea {
-  line-height: 1.5;
-  padding: 1rem;
-  flex: 1;
-  min-height: 10rem;
-  border: none;
-  resize: none;
-}
-
-.answerbox > form input {
-  padding: 1rem 5rem;
-  align-self: flex-end;
-  border: none;
-  border-radius: 0.5rem;
-  color: white;
-  background: #2D82B8;
-}
-
-.answerbox > form input:hover {
-  background: #2976A7;
-}
-
-.answerbox > form input:active {
-  background: #276F9D;
-}
-
 .notifbox {
   position: absolute;
   top: 0;
   left: 0;
-  border: 1px solid red;
+  background: white;
+  padding: 12px;
+  border-radius: 6px;
+}
+
+.notifbox button {
+  width: 100%;
+  background: black;
+  color: white;
+  border: none;
+  padding: 6px 0;
+}
+
+.watchBtn {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background: transparent;
+  border: 0;
+}
+
+
+.sidebarWrapper {
+  flex:1;
+  margin: 2rem;
+  min-width: 350px;
+  background: white;
+  height: min-content;
+  padding: 1rem;
+}
+
+.topOfFeed {
+  margin: 2rem 0;
 }

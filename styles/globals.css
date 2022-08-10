@@ -33,6 +33,10 @@ p, h1, h2, h3, h4, h5, h6 {
   isolation: isolate;
 }
 
+a {
+  color: rgb(16, 74, 87);
+}
+
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;

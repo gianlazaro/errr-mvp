@@ -1,0 +1,83 @@
+.mainWrapper {
+  height: 80vh;
+  display: flex;
+  width: 75%;
+  margin: 40px auto;
+}
+
+.hypeup {
+  border-radius: 12px;
+  display: flex;
+  object-fit: contain;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  padding: 4rem;
+  width: 100%;
+  background: white;
+}
+
+.mainWrapper .rightPane {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 4rem;
+  width: 100%;
+  justify-content: center;
+}
+
+.rightPane h1 {
+  margin-bottom: 0.5rem
+}
+
+.formWrapper input {
+  display: flex;
+  /* flex-direction: column; */
+  border: none;
+  width: 80%;
+  height: 2.5rem;
+  border-radius: 6px;
+  margin: 1rem 0;
+  padding: 1.5rem 1rem;
+}
+
+.hypemessage {
+  font-size: 2rem;
+  line-height: 4rem;
+}
+
+.hypemessage span {
+  /* display: inline-block; */
+  white-space: nowrap;
+  min-width: max-content;
+  background: blue;
+  color: white;
+  border-radius: 2rem;
+  padding: 1rem;
+}
+
+.nonaccountmsg {
+  display: block;
+  font-style: italic;
+  margin: 1rem 0;
+  font-size: 0.85rem;
+}
+
+.loginBtn {
+  padding: 1rem 5rem;
+  align-self: flex-end;
+  border: none;
+  border-radius: 0.5rem;
+  color: white;
+  background: rgb(22,105,124);
+  cursor: pointer;
+}
+
+
+.loginBtn:hover {
+  background: rgb(19, 89, 105);
+}
+
+.loginBtn:active {
+  background: rgb(16, 74, 87);
+}
