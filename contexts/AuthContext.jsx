@@ -66,18 +66,8 @@ export function AuthContextProvider({ children }) {
           displayName,
           email: newUser.email,
           communities: arrayUnion(doc(db, 'communities', communityId)),
-          notifications: []
+          notifications: [],
         });
-
-        // console.log(newUser);
-        // setUser({
-        //   uid: newUser.uid,
-        //   displayName,
-        //   email: newUser.email,
-        //   currentCommunity: {
-        //     id: communityId,
-        //     communityName: currentCommunity?.communityName
-        //   }});
 
         router.push('/');
       });

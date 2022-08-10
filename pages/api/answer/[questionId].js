@@ -1,5 +1,5 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import {addDoc, collection, getDoc, doc, updateDoc, arrayUnion } from 'firebase/firestore';
+import {addDoc, collection, getDoc, doc, updateDoc, arrayUnion, Timestamp } from 'firebase/firestore';
 import { db } from '../../../config/firebase';
 
 export default async function questions(req, res) {
@@ -13,7 +13,8 @@ export default async function questions(req, res) {
         email,
         uid
       },
-      answerBody
+      answerBody,
+      creationDate: String(Timestamp.now())
     };
     addDoc(collection(db, 'answers'), answer)
 

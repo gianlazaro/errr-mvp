@@ -6,6 +6,7 @@ import useSWR, { useSWRConfig } from 'swr';
 import { getDoc, getDocs, doc, query, collection, where, updateDoc, arrayUnion } from 'firebase/firestore';
 import { db } from '../../config/firebase';
 import NotificationBox from '../../components/NotificationBox'
+import {useState, useEffect} from 'react';
 
 export default function CommunityPage() {
   const { user } = useAuth();
@@ -16,10 +17,8 @@ export default function CommunityPage() {
     return;
   }
 
-  const fetcher = (...args) => fetch(...args).then(res => {
-    return res.json()
-  });
-  const { data: questions, error } = useSWR(`api/questions/${user?.currentCommunity?.id}`, fetcher);
+  const fetcher = (...args) => fetch(...args).then(res => res.json());
+  const { data: questions, error } = useSWR(`api/questions/${user.currentCommunity?.id}`, fetcher);
 
   // if(error) <p>Loading failed</p>;
   // if(!questions) <h1>Loading...</h1>;
@@ -44,17 +43,18 @@ export default function CommunityPage() {
 
   return (
     <main className={styles.mainWrapper}>
+      {String(new Date())}
       {questions?.map((q) => (
         <article className={styles.questionListItem} key={q.q_id}>
           <span className={styles.questionTitle}>
-            <Link href={`/${user.currentCommunity.communityName}/${q.q_id}`}>{q.questionTitle}</Link>
+            <Link href={`/${user.currentCommunity.communityName}/${q.q_id}`}><a>{q.questionTitle}</a></Link>
           </span>
           <div className={styles.bottomBar}>
-            <span>Asked by {q.questionAsker.displayName} • <a href="#">3 answers</a></span>
+            <span>Asked by {q.questionAsker?.displayName} • <a href="#">3 answers</a></span>
             <button onClick={handleWatch} data-qid={q.q_id}>Watch</button>
             <ul className={styles.watchList}>
               {q.watchers?.map((watcher) => (
-                <li className={styles.watchListItem}>
+                <li className={styles.watchListItem} key={watcher}>
                   {watcher.slice(0, 2)}
                 </li>
               ))}
