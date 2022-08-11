@@ -61,10 +61,14 @@ function NavBar() {
         </div>
           </div>
            :
-            router.pathname !== '/login' ? <Link href="/login"><a>Login</a></Link> : ''
+            router.pathname !== '/login' ? <Link href="/login"><a className={styles.loginBtn}>Login</a></Link> : ''
           }</span>
 
-        <div onClick={() => logout()}>
+        <div className={styles.avatarWrapper} onClick={() => {
+          if(user) {
+            logout()
+          }
+          }}>
           <Avatar
             size={40}
             name={user?.uid}

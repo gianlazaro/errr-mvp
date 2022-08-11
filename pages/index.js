@@ -31,14 +31,13 @@ export default function Home() {
 
             <div className={styles.overview}>
               <h2>
-                Hello
               </h2>
               <div className={styles.split}>
                 <div>
-                  1
+                  to be filled
                 </div>
                 <div>
-                  2
+                  soon (hopefully)
                 </div>
               </div>
             </div>

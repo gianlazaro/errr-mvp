@@ -102,3 +102,34 @@
   text-decoration: none;
 }
 
+.loginBtn {
+  text-decoration: none;
+  background: #eee;
+  border-radius: 6px;
+  padding: 0.5rem 2rem;
+  font-weight: 500;
+  color: blue;
+}
+
+.loginBtn:hover {
+  background: #ddd;
+}
+
+
+.loginBtn:active {
+  background: #ccc;
+}
+
+.avatarWrapper {
+  border:3px solid #fafafa;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.avatarWrapper:hover {
+  border: 3px solid blue;
+}
+
+.avatarWrapper:active {
+  border: 3px solid rgb(0, 0, 180);
+}
