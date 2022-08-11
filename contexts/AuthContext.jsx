@@ -17,7 +17,6 @@ export function AuthContextProvider({ children }) {
   const router = useRouter();
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      console.log('useeffect hit');
       if (user) {
         const community = await getCommunityInfo(user);
         setCurrentCommunity(community);
@@ -29,7 +28,6 @@ export function AuthContextProvider({ children }) {
             id: community.id,
             communityName: community.communityName
           },
-          // photoURL: '',
         });
       } else {
         setUser(null);
@@ -45,7 +43,7 @@ export function AuthContextProvider({ children }) {
       .then(() => router.push('/'))
   }
 
-  async function register(username, password, displayName, communityId) {
+  async function register(username, password, displayName, communityId, isAdmin) {
     setDisp(displayName);
     const communityRef = doc(db, 'communities', communityId);
     const community = await getDoc(communityRef);
@@ -67,6 +65,7 @@ export function AuthContextProvider({ children }) {
           email: newUser.email,
           communities: arrayUnion(doc(db, 'communities', communityId)),
           notifications: [],
+          admin: isAdmin ? communityId : null
         });
 
         router.push('/');

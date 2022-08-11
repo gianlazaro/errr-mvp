@@ -56,23 +56,6 @@
   list-style-type: none;
 }
 
-.notifbox {
-  position: absolute;
-  top: 0;
-  left: 0;
-  background: white;
-  padding: 12px;
-  border-radius: 6px;
-}
-
-.notifbox button {
-  width: 100%;
-  background: black;
-  color: white;
-  border: none;
-  padding: 6px 0;
-}
-
 .watchBtn {
   position: absolute;
   top: 0.5rem;
@@ -81,16 +64,43 @@
   border: 0;
 }
 
-
 .sidebarWrapper {
   flex:1;
-  margin: 2rem;
   min-width: 350px;
-  background: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.sidebarInfo {
+  margin: 2rem;
   height: min-content;
+  background: white;
   padding: 1rem;
 }
 
 .topOfFeed {
   margin: 2rem 0;
+}
+
+.sidebarBtn {
+
+}
+
+.sidebarBtn {
+  padding: 1rem 5rem;
+  align-self: flex-end;
+  border: none;
+  border-radius: 0.5rem;
+  color: white;
+  background: var(--button-primary);
+  cursor: pointer;
+}
+
+.sidebarBtn:hover {
+  background: var(--button-primary-hover);
+}
+
+.sidebarBtn:active {
+  background: var(--button-primary-active);
 }

@@ -6,7 +6,7 @@ export default async function Notifications (req, res) {
   // get the user
   const userRef = doc(db, 'users', userId);
   const user = await getDoc(userRef);
-  const notifications = user.data().notifications;
+  const notifications = user.data()?.notifications;
 
   res.send(notifications);
 }

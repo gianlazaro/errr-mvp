@@ -13,3 +13,54 @@
   align-items: center;
   gap: 1rem;
 }
+
+.notifbox {
+  position: absolute;
+  z-index: 358237523;
+  top: 2.5rem;
+  right: -0.5rem;
+  background: white;
+  padding: 12px;
+  border-radius: 6px;
+  border: 1px solid #F1F4F6;
+  max-height: 400px;
+  overflow: auto;
+}
+
+.notifbox button {
+  width: 100%;
+  background: black;
+  color: white;
+  border: none;
+  padding: 6px 0;
+}
+
+.notifBtn {
+  border: 0;
+  background: none;
+  margin: 0;
+  padding: 0 1rem;
+  position: relative;
+  top: 3px;
+  cursor: pointer;
+}
+
+.notifMarker {
+  background: red;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  position: absolute;
+  top: 0;
+  right: 15px;
+  border: 2px solid #FAFAFA;
+}
+
+.notifWrapper {
+  position: relative;
+}
+
+.topishWrapper {
+  display: flex;
+  align-items: center;
+}

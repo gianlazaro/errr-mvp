@@ -24,7 +24,7 @@ export default function Home() {
             <div className={styles.aboveTheFold}>
               <h1 className={styles.catchline}>Ask. Discover.&nbsp;<span>Learn.</span></h1>
               <div className={styles.buttonsWrapper}>
-                <Link href="/login"><span className={styles.shadow}><a className={styles.commBtn}>Start a Community</a></span></Link>
+                <Link href="/createCommunity"><span className={styles.shadow}><a className={styles.commBtn}>Start a Community</a></span></Link>
                 <Link href="/register"><span className={styles.shadow}><a className={styles.regisBtn}>Have a Code?</a></span></Link>
               </div>
             </div>

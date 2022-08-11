@@ -6,6 +6,13 @@
 }
 
 .hypeup {
+  background-color: #ffffff;
+  opacity: 1;
+  background-image:  radial-gradient(#000dff 1.5px, transparent 1.5px), radial-gradient(#000dff 1.5px, #ffffff 1.5px);
+  background-size: 60px 60px;
+  background-position: 0 0,30px 30px;
+  /* filter: grayscale(100%); */
+  /* filter: saturate(10%); */
   border-radius: 12px;
   display: flex;
   object-fit: contain;
@@ -14,7 +21,6 @@
   flex: 1;
   padding: 4rem;
   width: 100%;
-  background: white;
 }
 
 .mainWrapper .rightPane {
@@ -69,15 +75,15 @@
   border: none;
   border-radius: 0.5rem;
   color: white;
-  background: rgb(22,105,124);
+  background: var(--button-primary);
   cursor: pointer;
 }
 
 
 .loginBtn:hover {
-  background: rgb(19, 89, 105);
+  background: var(--button-primary-hover);
 }
 
 .loginBtn:active {
-  background: rgb(16, 74, 87);
+  background: var(--button-primary-active);
 }

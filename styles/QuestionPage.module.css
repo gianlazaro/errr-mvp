@@ -11,7 +11,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background: white;
+  background: var(--card-primary);
   min-height: min-content;
   padding: 18px;
   border-bottom: 1px solid #eee;
@@ -97,16 +97,16 @@
   border: none;
   border-radius: 0.5rem;
   color: white;
-  background: rgb(22,105,124);
+  background: var(--button-primary);
   cursor: pointer;
 }
 
 .answerbox > form input:hover {
-  background: rgb(19, 89, 105);
+  background: var(--button-primary-hover);
 }
 
 .answerbox > form input:active {
-  background: rgb(16, 74, 87);
+  background: var(--button-primary-active);
 }
 
 .actionsWrapperQ{

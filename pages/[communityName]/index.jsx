@@ -9,18 +9,30 @@ import { db } from '../../config/firebase';
 import NotificationBox from '../../components/NotificationBox'
 import { useState, useEffect } from 'react';
 import Avatar from 'boring-avatars';
+import { fromUnixTime, format } from 'date-fns';
 
 export default function CommunityPage() {
   const { user } = useAuth();
+  const [moreUserData, setMoreUserData] = useState({});
   const router = useRouter();
   const { mutate } = useSWRConfig()
   if (!user) {
     router.push(`/`);
-    return;
+    // return;
   }
 
+  async function getUserMeta() {
+    const userRef = await getDoc(doc(db, 'users', user.uid))
+    setMoreUserData(userRef.data());
+  }
+
+  useEffect(()=> {
+    getUserMeta();
+  },[]);
+
   const fetcher = (...args) => fetch(...args).then(res => res.json());
-  const { data: questions, error } = useSWR(`api/questions/${user.currentCommunity?.id}`, fetcher);
+  const { data: questions } = useSWR(`api/questions/${user?.currentCommunity?.id}`, fetcher);
+  const { data: community } = useSWR(`api/community/${user?.currentCommunity?.id}`, fetcher);
 
   function generateAvatar(name) {
     return (
@@ -58,7 +70,7 @@ export default function CommunityPage() {
               <Link href={`/${user.currentCommunity.communityName}/${q.q_id}`}><a>{q.questionTitle}</a></Link>
             </span>
             <div className={styles.bottomBar}>
-              <span>{q.questionAsker?.displayName} • <a href="#">3 answers</a></span>
+              <span>{q.questionAsker?.displayName} • {format(fromUnixTime(q.creationDate), 'MM/dd/yyyy')} • <a href="#">3 answers</a></span>
               {
                 !q.watchers.includes(user.uid) &&
                 <button onClick={handleWatch} data-qid={q.q_id} className={styles.watchBtn}>
@@ -76,16 +88,22 @@ export default function CommunityPage() {
             </div>
           </article>
         ))}
-        <div className={styles.notifbox}>
-          <NotificationBox />
-        </div>
       </main>
       <aside className={styles.sidebarWrapper}>
-        <h1>HR2205</h1>
-        <p>Sed auctor est ut nibh lobortis ornare. Aliquam egestas augue quis nibh lacinia luctus. Donec imperdiet mauris lobortis est auctor, at tempus leo fringilla. Sed eleifend finibus lorem. Morbi justo nisl, scelerisque a ante vel, blandit mattis sapien. Integer vitae fringilla sapien. Ut magna ligula, suscipit et mauris vel, faucibus molestie orci. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aliquam rhoncus finibus sapien vel semper. Suspendisse nec tincidunt sapien, in ultricies leo. Quisque facilisis velit ante, suscipit tempus velit auctor at. Fusce sit amet nibh quis ipsum ultricies hendrerit non sed nulla. Etiam egestas neque id lacus aliquet, et auctor massa viverra. Phasellus et vestibulum nisi. Sed dignissim, neque eget ullamcorper porttitor, dolor tellus tincidunt ipsum, sed feugiat magna metus scelerisque est. Nulla consequat tellus in diam dictum malesuada.
-        </p>
-        <p>
-          Ut bibendum luctus quam, vel dictum elit congue a. Nam rutrum quis neque maximus malesuada. Phasellus tincidunt fringilla condimentum. Nam varius volutpat nunc blandit commodo. Cras sed nunc lacus. Maecenas sagittis sapien mauris, quis condimentum tortor pharetra sit amet. Sed vitae ornare massa. Fusce eleifend est sed arcu maximus, non molestie lorem scelerisque. Ut dignissim libero in orci bibendum, a venenatis risus iaculis. Praesent faucibus enim quis nulla elementum, ut tristique tellus tincidunt.</p>
+        <img src={community?.communityLogo} />
+        <button className={styles.sidebarBtn}>Submit a Question</button>
+        <div className={styles.sidebarInfo}>
+          <h1>{community?.communityName}</h1>
+          <p>{community?.communitySidebar}</p>
+        </div>
+        {
+          moreUserData.admin === user?.currentCommunity?.id &&
+        <div>
+          <p>this is where you put the invite code</p>
+          {user.currentCommunity?.id}
+        </div>
+
+        }
       </aside>
     </div>
   )

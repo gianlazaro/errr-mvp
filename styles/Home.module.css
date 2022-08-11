@@ -91,6 +91,11 @@
   color: white;
   padding: 2rem 4rem;
   font-weight: 700;
+  transition: backgroun 1s ease-in-out;
+}
+
+.regisBtn:active {
+  background: rgb(0, 0, 200);
 }
 
 .aboveTheFold .shadow {

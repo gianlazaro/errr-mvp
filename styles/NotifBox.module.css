@@ -1,0 +1,28 @@
+.notifBoxWrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 200px;
+  max-height: 400px;
+  width: 300px;
+  justify-content: space-between;
+}
+
+.notifBoxWrapper ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.notifBoxWrapper li {
+  padding: 1rem 0;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 0.5rem;
+}
+
+.emptyNotif {
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  align-items: center;
+  gap: 1rem;
+  opacity: 15%;
+}

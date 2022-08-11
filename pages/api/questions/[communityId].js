@@ -18,7 +18,8 @@ export default async function questions(req, res) {
   }
   else if (req.method === 'POST') {
     const { questionTitle, questionBody, communityId, displayName, email, uid } = req.body;
-    let creationDate = Timestamp.now();
+    const date = new Date();
+    const unixTimestamp = Math.floor(date.getTime() / 1000);
 
     const question = await addDoc(collection(db, 'questions'), {
       communityId,
@@ -30,7 +31,7 @@ export default async function questions(req, res) {
         uid,
       },
       watchers: [],
-      creationDate: String(Timestamp.now())
+      creationDate: unixTimestamp
     });
 
     res.send(question.id);

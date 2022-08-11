@@ -3,7 +3,7 @@ import styles from '../styles/Login.module.css';
 import Link from 'next/link'
 import Image from 'next/image';
 
-export default function login() {
+export default function Login() {
   const { user, signIn } = useAuth();
   function handleSubmit(e) {
     e.preventDefault();
@@ -15,14 +15,14 @@ export default function login() {
   return (
     <div className={styles.mainWrapper}>
       <div className={styles.hypeup}>
-        <h2 className={styles.hypemessage}>Let's get this ball <span>on the road!</span></h2>
+        <h2 className={styles.hypemessage}>Let&apos;s get this ball <span>rollin&apos;!</span></h2>
       </div>
       <div className={styles.rightPane}>
         <h1>Login</h1>
         <form onSubmit={handleSubmit} className={styles.formWrapper}>
           <input type="email" id="email" placeholder="email" />
           <input type="password" id="password" placeholder="password" />
-        <span className={styles.nonaccountmsg}>Don't have an account? <Link href="/register"><a>Sign up!</a></Link></span>
+        <span className={styles.nonaccountmsg}>Don&apos;t have an account yet? <Link href="/register"><a>Sign up!</a></Link></span>
           <button type="submit" className={styles.loginBtn}>Login</button>
         </form>
 

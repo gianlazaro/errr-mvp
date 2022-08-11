@@ -2,6 +2,20 @@
   Josh's Custom CSS Reset
   https://www.joshwcomeau.com/css/custom-css-reset/
 */
+
+:root {
+/* general */
+--text-primary: #1A1A1A;
+
+  /* buttons */
+  --button-primary: blue;
+  --button-primary-hover: rgb(0, 0, 200);
+  --button-primary-active: rgb(0, 0, 160);
+
+  /* cards */
+  --card-primary: white;
+}
+
 *, *::before, *::after {
   box-sizing: border-box;
 }
@@ -34,7 +48,7 @@ p, h1, h2, h3, h4, h5, h6 {
 }
 
 a {
-  color: rgb(16, 74, 87);
+  color: var(--button-primary-active);
 }
 
 @media (prefers-color-scheme: dark) {

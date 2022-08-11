@@ -4,6 +4,8 @@ import { db } from '../../../config/firebase';
 
 export default async function questions(req, res) {
   const { questionId } = req.query;
+  const date = new Date();
+  const unixTimestamp = Math.floor(date.getTime() / 1000);
   if (req.method === 'POST') {
     const { displayName, email, uid, answerBody } = req.body;
     const answer = {
@@ -14,7 +16,7 @@ export default async function questions(req, res) {
         uid
       },
       answerBody,
-      creationDate: String(Timestamp.now())
+      creationDate: unixTimestamp
     };
     addDoc(collection(db, 'answers'), answer)
 
