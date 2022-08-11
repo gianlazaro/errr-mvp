@@ -56,7 +56,7 @@ export default function Register() {
         </div>
         <div className={styles.fieldGroup}>
           <label htmlFor="password">Password</label>
-          <input type="password" id="password" required/>
+          <input type="password" id="password" minLength={6} required/>
         </div>
         <div className={styles.buttonWrapper}>
           <div className={styles.errorMessage}>{error && `❌ ${error}`}</div>

@@ -178,7 +178,7 @@ export default function QuestionPage({ data: qna }) {
             <div className={styles.answerer}>
             <Avatar
           size={75}
-          name={user?.uid}
+          name={answer.answerAuthor.uid}
           variant="beam"
           onClick={()=>logout()}
           className={styles.avatar}

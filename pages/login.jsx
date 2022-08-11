@@ -28,8 +28,8 @@ export default function Login() {
         <div className={styles.rightPane}>
           <h1>Login</h1>
           <form onSubmit={handleSubmit} className={styles.formWrapper}>
-            <input type="email" id="email" placeholder="email" />
-            <input type="password" id="password" placeholder="password" />
+            <input type="email" id="email" placeholder="email" required/>
+            <input type="password" id="password" placeholder="password" required/>
             <span className={styles.nonaccountmsg}>
               Don&apos;t have an account yet?
               <Link href="/register"><a>Sign up!</a></Link>
