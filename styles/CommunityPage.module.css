@@ -25,7 +25,7 @@
   flex-direction: column;
   justify-content: space-between;
   background: white;
-  min-height: min-content;
+  min-height: 120px;
   padding: 20px 18px;
   margin-bottom: 0.25rem;
   border-bottom: 1px solid #eee;
@@ -75,6 +75,22 @@
   right: 0.5rem;
   background: transparent;
   border: 0;
+  opacity: 0.5;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.watchBtn:hover {
+  background: #eee;
+  border-radius: 50%;
+  opacity: 1;
+}
+
+.watchBtn:hover {
+  background: #ddd;
+  border-radius: 50%;
 }
 
 .sidebarWrapper {
@@ -146,6 +162,10 @@
   font-size: 1.25rem;
 }
 
+.shareCommunity input:hover {
+  background: #eee;
+}
+
 .warning {
   font-style: italic;
   font-size: 0.85rem;
@@ -157,4 +177,19 @@
   margin-bottom: 1rem;
   padding-bottom: 1rem;
   border-bottom: 1px solid #eee;
+}
+
+.emptyFront {
+  margin: 2rem 0;
+  background: white;
+  min-height: min-content;
+  padding: 20px 18px;
+  margin-bottom: 0.25rem;
+  border-bottom: 1px solid #eee;
+  border-radius: 6px;
+  color: #aaa
+}
+
+.emptyFront em {
+  display: block;
 }

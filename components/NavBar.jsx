@@ -30,13 +30,15 @@ function NavBar() {
     setIsNotifOpen(!isNotifOpen);
   }
 
-  // ping the server every 30 seconds for changes in any of the questions watched
+  // ping the server every 60 seconds for changes in any of the questions watched
   const fetcher = (...args) => fetch(...args).then(res => res.json());
-  const { data: notifications, error } = useSWR(`/api/notifications/${user?.uid}`, fetcher, { refreshInterval: 1000 });
+  const { data: notifications, error } = useSWR(`/api/notifications/${user?.uid}`, fetcher
+  // , { refreshInterval: 1000 }
+  );
 
   return (
     <nav className={styles.nav}>
-      <span><Link href="/">err.</Link></span>
+      <span className={styles.logo}><Link href="/">err.</Link></span>
       <div className={styles.rightMenuCluster}>
         <span>
           {currUser !== 'stranger' ?

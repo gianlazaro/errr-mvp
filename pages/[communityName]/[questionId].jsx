@@ -3,7 +3,7 @@ import styles from '../../styles/QuestionPage.module.css'
 import { useState, useEffect } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import axios from 'axios';
-import { getDoc, getDocs, doc, query, collection, where, deleteDoc, updateDoc, toDate } from 'firebase/firestore';
+import { getDoc, getDocs, doc, query, collection, where, deleteDoc, updateDoc, orderBy } from 'firebase/firestore';
 import { db } from '../../config/firebase';
 import Image from 'next/image';
 import Avatar from 'boring-avatars';
@@ -28,7 +28,7 @@ export async function getServerSideProps(ctx) {
 
     // get query of all answers of the question id
     let answers = [];
-    const answerQuery = query(collection(db, 'answers'), where('questionId', '==', questionId));
+    const answerQuery = query(collection(db, 'answers'), where('questionId', '==', questionId), orderBy('creationDate', 'desc'));
     const docs = await getDocs(answerQuery);
     docs.forEach((doc) => {
       answers.push({ ...doc.data(),answerId: doc.id });
@@ -56,6 +56,10 @@ export default function QuestionPage({ data: qna }) {
   const [isVisibleA, setIsVisibleA] = useState(false);
   const refreshData = () => {
     router.replace(router.asPath);
+  }
+
+  if (router.isFallback) {
+    return <div className='loading-icon'></div>
   }
 
   if (!user) {
@@ -115,6 +119,7 @@ export default function QuestionPage({ data: qna }) {
     }
   }
 
+
   function handleUpdateQuestion(ques) {
     if (user.uid === ques.questionAsker.uid || !!moreUserData.admin) {
       setIsEditableQ(!isEditableQ);
@@ -129,6 +134,10 @@ export default function QuestionPage({ data: qna }) {
     }
   }
 
+  function visiblity(answerId) {
+
+  }
+
   return (
     <main className={styles.main}>
       <article className={styles.questionWrapper}>
@@ -139,7 +148,7 @@ export default function QuestionPage({ data: qna }) {
         <div className={styles.bottomBar}>
           <span>Asked by {qna.question?.questionAsker.displayName}</span>
           {
-            (user.uid === qna.question.questionAsker.uid || !!moreUserData.admin) &&
+            (user?.uid === qna.question.questionAsker.uid || !!moreUserData.admin) &&
             <div className={styles.actionsWrapperQ}>
               <Image src="/moreBtn.png" width="30px" height="30px" className={styles.moreIcon} onClick={() => setIsVisibleQ(!isVisibleQ)} />
               {isVisibleQ &&
@@ -169,7 +178,7 @@ export default function QuestionPage({ data: qna }) {
             <div className={styles.answerer}>
             <Avatar
           size={75}
-          name={user.uid}
+          name={user?.uid}
           variant="beam"
           onClick={()=>logout()}
           className={styles.avatar}
@@ -179,7 +188,7 @@ export default function QuestionPage({ data: qna }) {
             <div className={styles.answererResponse}>
               <p id="answerBody" contentEditable={isEditableA}>{answer?.answerBody}</p>
             </div>
-            {(user.uid === answer.answerAuthor.uid || !!moreUserData.admin) &&
+            {(user?.uid === answer.answerAuthor.uid || !!moreUserData.admin) &&
               <div className={styles.actionsWrapperA}>
                 <Image src="/moreBtn.png" width="30px" height="30px" className={styles.moreIcon} onClick={() => setIsVisibleA(!isVisibleA)} />
                 {

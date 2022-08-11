@@ -9,8 +9,8 @@
 
   /* buttons */
   --button-primary: blue;
-  --button-primary-hover: rgb(0, 0, 200);
-  --button-primary-active: rgb(0, 0, 160);
+  --button-primary-hover: #0000c8;
+  --button-primary-active: #0000a0;
 
   /* cards */
   --card-primary: white;
@@ -60,4 +60,37 @@ a {
     color: white;
     background: black;
   }
+}
+
+@keyframes move{
+  0%{
+    transform: rotate(0deg);
+  }
+  25%{
+    transform: rotate(90deg);
+  }
+  50%{
+    transform: rotate(180deg);
+  }
+  75%{
+    transform: rotate(279deg);
+  }
+  100%{
+    transform: rotate(360deg);
+  }
+}
+
+div.loading_icon{
+  height: 40px;
+  width: 40px;
+  margin: 0 auto;
+  border-top: 5px solid var(--button-primary);
+  border-right: 5px solid var(--button-primary-hover);
+  border-bottom: 5px solid var(--button-primary-active);
+  border-left: 5px solid #F1F4F6;
+  border-radius: 50%;
+  animation-name: move;
+  animation-duration: 1s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
 }

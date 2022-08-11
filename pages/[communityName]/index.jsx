@@ -16,6 +16,9 @@ export default function CommunityPage() {
   const [moreUserData, setMoreUserData] = useState({});
   const router = useRouter();
   const { mutate } = useSWRConfig()
+  if (router.isFallback) {
+    return <div className='loading-icon'></div>
+  }
   if (!user) {
     router.push(`/`);
   }
@@ -44,6 +47,8 @@ export default function CommunityPage() {
   }
 
   async function handleWatch(e) {
+    e.stopPropagation();
+    e.nativeEvent.stopImmediatePropagation();
 
     const q_id = e.currentTarget.dataset.qid;
     const questionRef = doc(db, 'questions', q_id);
@@ -52,17 +57,20 @@ export default function CommunityPage() {
       watchers: arrayUnion(user.uid)
     })
 
-    //if q_id exists in the server array, remove button
-    const btn = document.querySelector(`[data-qid="${q_id}"]`);
-    btn.style.display = "none";
-
     mutate(`api/questions/${user?.currentCommunity?.id}`);
   }
 
   return (
     <div className={styles.communityPageWrapper}>
       <main className={styles.mainWrapper}>
-        <h2 style={{marginBottom: '1rem'}}>{format(new Date(), 'EEEE, MMMM io yyyy')}</h2>
+        <h2 style={{marginBottom: '1rem'}}>{format(new Date(), 'EEEE, MMMM do yyyy')}</h2>
+        {
+          questions?.length === 0 &&
+          <div className={styles.emptyFront}>
+            <em>It seems pretty quiet here 🦗</em>
+            <em style={{fontWeight: "700"}}>Submit a Question!</em>
+          </div>
+        }
         {questions?.map((q) => (
           <Link href={`/${user.currentCommunity.communityName}/${q.q_id}`} key={q.q_id}>
             <article className={styles.questionListItem}>

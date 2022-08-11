@@ -5,12 +5,10 @@ import { db } from '../../../config/firebase';
 export default async function questions(req, res) {
   if (req.method === 'GET') {
     let data = [];
-    let page = 1;
-    let startCount = 0;
     const { communityId } = req.query;
     // order by number of watchers
     // where date is today
-    const docs = await getDocs(query(collection(db, 'questions'), where('communityId', '==', communityId), orderBy('creationDate', 'asc')));
+    const docs = await getDocs(query(collection(db, 'questions'), where('communityId', '==', communityId), orderBy('creationDate', 'desc')));
     docs.forEach((doc) => {
       data.push({ ...doc.data(), q_id: doc.id });
     })

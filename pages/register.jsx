@@ -4,10 +4,16 @@ import {getDoc, doc} from 'firebase/firestore';
 import styles from '../styles/Register.module.css';
 import {useState} from 'react';
 import DOMPurify from 'dompurify';
+import {useRouter} from 'next/router';
 
 export default function Register() {
   const { register } = useAuth();
   const [error, setError] = useState(null);
+  const router = useRouter();
+  if (router.isFallback) {
+    return <div className='loading-icon'></div>
+  }
+
   async function handleSubmit(e) {
     e.preventDefault();
     const firstName = DOMPurify.sanitize(e.target.firstName.value);

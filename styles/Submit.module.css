@@ -1,4 +1,15 @@
-.fieldGroupWrapper {
+.mainWrapper {
+  height: 80vh;
+  display: flex;
+  width: 75%;
+  margin: 40px auto;
+}
+
+.card {
+  width: 100%;
+}
+
+.formWrapper {
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -9,10 +20,18 @@
   background: white;
 }
 
-.fieldGroupWrapper h1 {
+.formWrapper h1 {
   margin: 1rem 0 2rem 0;
   padding-bottom: 1rem;
   border-bottom: 1px solid #EEE;
+}
+.formWrapper textarea {
+  border: none;
+  height: 10rem;
+  width: 100%;
+  border-radius: 6px;
+  background: #FAFAFA;
+  border: 1px solid #ddd;
 }
 
 .fieldGroup {
@@ -48,41 +67,4 @@
 }
 .mainWrapper button:active {
   background: var(--button-primary-active)
-}
-
-.fieldGroupFL {
-  display: flex;
-  flex-direction: row;
-  gap: 1rem;
-  align-items: center;
-  margin-bottom: 1rem;
-}
-
-.fieldGroupFL input {
-  border: none;
-  height: 2.5rem;
-  width: 100%;
-  border-radius: 6px;
-  background: #FAFAFA;
-  border: 1px solid #ddd;
-}
-
-.fieldGroupFL label {
-  min-width: max-content;
-  font-weight: 600;
-}
-
-.buttonWrapper {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.error {
-  border: 1px solid red;
-}
-
-.errorMessage {
-  font-weight: 700;
-  color: red;
 }
