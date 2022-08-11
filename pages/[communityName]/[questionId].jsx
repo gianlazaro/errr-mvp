@@ -167,7 +167,7 @@ export default function QuestionPage({ data: qna }) {
       </article>
       <div className={styles.answerbox}>
         <form onSubmit={handleSubmit} className={styles.formWrapper}>
-          <textarea placeholder="Make sure to answer concisely without taking the opportunity away from the other person." id="answerField"></textarea>
+          <textarea placeholder="Make sure to answer concisely without taking the opportunity away from the other person." id="answerField" required></textarea>
           <input type="submit" />
         </form>
       </div>
