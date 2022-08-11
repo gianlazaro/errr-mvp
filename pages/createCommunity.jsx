@@ -30,6 +30,7 @@ export default function CreateCommunity() {
       console.log(data);
       setCommunityId(data);
       setIsStepOneDone(true);
+      e.target.reset();
     });
   }
 
