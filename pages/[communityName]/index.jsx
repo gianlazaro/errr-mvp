@@ -16,6 +16,20 @@ export default function CommunityPage() {
   const [moreUserData, setMoreUserData] = useState({});
   const router = useRouter();
   const { mutate } = useSWRConfig()
+
+  async function getUserMeta() {
+    const userRef = await getDoc(doc(db, 'users', user.uid))
+    setMoreUserData(userRef.data());
+  }
+
+  const fetcher = (...args) => fetch(...args).then(res => res.json());
+  const { data: questions } = useSWR(`api/questions/${user?.currentCommunity?.id}`, fetcher);
+  const { data: community } = useSWR(`api/community/${user?.currentCommunity?.id}`, fetcher);
+
+  useEffect(() => {
+    getUserMeta();
+  }, []);
+
   if (router.isFallback) {
     return <div className='loading-icon'></div>
   }
@@ -23,18 +37,7 @@ export default function CommunityPage() {
     router.push(`/`);
   }
 
-  async function getUserMeta() {
-    const userRef = await getDoc(doc(db, 'users', user.uid))
-    setMoreUserData(userRef.data());
-  }
 
-  useEffect(() => {
-    getUserMeta();
-  }, []);
-
-  const fetcher = (...args) => fetch(...args).then(res => res.json());
-  const { data: questions } = useSWR(`api/questions/${user?.currentCommunity?.id}`, fetcher);
-  const { data: community } = useSWR(`api/community/${user?.currentCommunity?.id}`, fetcher);
 
   function generateAvatar(name) {
     return (

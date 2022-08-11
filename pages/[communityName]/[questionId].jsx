@@ -58,15 +58,6 @@ export default function QuestionPage({ data: qna }) {
     router.replace(router.asPath);
   }
 
-  if (router.isFallback) {
-    return <div className='loading-icon'></div>
-  }
-
-  if (!user) {
-    router.push('/');
-    // return;
-  }
-
   async function getUserMeta() {
     const userRef = await getDoc(doc(db, 'users', user.uid))
     setMoreUserData(userRef.data());
@@ -74,7 +65,16 @@ export default function QuestionPage({ data: qna }) {
 
   useEffect(()=> {
     getUserMeta();
-  }, [])
+  }, []);
+
+  if (router.isFallback) {
+    return <div className='loading-icon'></div>
+  }
+
+  if (!user) {
+    router.push('/');
+  }
+
   async function handleSubmit(e) {
     e.preventDefault();
     const answerBody = DOMPurify.sanitize(e.target.answerField.value);
