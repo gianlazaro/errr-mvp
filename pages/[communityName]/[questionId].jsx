@@ -85,7 +85,7 @@ export default function QuestionPage({ data: qna }) {
       uid: user.uid,
       answerBody
     });
-
+    e.target.reset();
     refreshData();
   }
 
