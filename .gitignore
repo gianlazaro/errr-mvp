@@ -9,7 +9,7 @@ node_modules/
 .env.test
 .next
 dist
-config
+# config
 *.rules
 firestore.indexes.json
 .firebaserc
