@@ -30,15 +30,8 @@ export default function Home() {
             </div>
 
             <div className={styles.overview}>
-              <h2>
-              </h2>
-              <div className={styles.split}>
-                <div>
-                  to be filled
-                </div>
-                <div>
-                  soon (hopefully)
-                </div>
+              <div className={styles.alert}>Here is a demo community code to get you started:
+                <input type="textbox" value="oD27ZJLhcBRqvGITJMcF" />
               </div>
             </div>
           </main>
