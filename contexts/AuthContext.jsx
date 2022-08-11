@@ -49,7 +49,7 @@ export function AuthContextProvider({ children }) {
     const community = await getDoc(communityRef);
 
     if (!community.exists()) {
-      return;
+      return new Error("Community does not exist");
     }
 
 

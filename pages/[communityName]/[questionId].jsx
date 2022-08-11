@@ -7,6 +7,7 @@ import { getDoc, getDocs, doc, query, collection, where, deleteDoc, updateDoc, t
 import { db } from '../../config/firebase';
 import Image from 'next/image';
 import Avatar from 'boring-avatars';
+import DOMPurify from 'dompurify';
 
 export async function getServerSideProps(ctx) {
   const { questionId } = ctx.params;
@@ -72,7 +73,8 @@ export default function QuestionPage({ data: qna }) {
   }, [])
   async function handleSubmit(e) {
     e.preventDefault();
-    const answerBody = e.target.answerField.value;
+    const answerBody = DOMPurify.sanitize(e.target.answerField.value);
+
     const { data: answer } = await axios.post(`/api/answer/${questionId}`, {
       displayName: user.displayName,
       email: user.email,
@@ -96,7 +98,7 @@ export default function QuestionPage({ data: qna }) {
   function handleUpdateAnswer(ans) {
     if (user.uid === ans.answerAuthor.uid || !!moreUserData.admin) {
       setIsEditableA(!isEditableA);
-      const answerBody = document.querySelector('#answerBody').textContent;
+      const answerBody = DOMPurify.sanitize(document.querySelector('#answerBody').textContent);
 
       updateDoc(doc(db, 'answers', ans.answerId), {
         answerBody
@@ -130,9 +132,8 @@ export default function QuestionPage({ data: qna }) {
   return (
     <main className={styles.main}>
       <article className={styles.questionWrapper}>
-        {console.log(moreUserData)}
         <h3 className={styles.sectionTitle} contentEditable={isEditableQ} id="questionTitle">{qna.question?.questionTitle}</h3>
-        <p id="questionBody" contentEditable={isEditableQ}>
+        <p id="questionBody" className={styles.questionBody} contentEditable={isEditableQ}>
           {qna.question?.questionBody}
         </p>
         <div className={styles.bottomBar}>
@@ -156,24 +157,24 @@ export default function QuestionPage({ data: qna }) {
         </div>
       </article>
       <div className={styles.answerbox}>
-        <form onSubmit={handleSubmit}>
-          <textarea placeholder="Make sure to answer concisely without taking that opportunity way from the other person" id="answerField"></textarea>
+        <form onSubmit={handleSubmit} className={styles.formWrapper}>
+          <textarea placeholder="Make sure to answer concisely without taking the opportunity away from the other person." id="answerField"></textarea>
           <input type="submit" />
         </form>
       </div>
       <div className={styles.answers}>
         <h3 className={styles.sectionTitle}>Answers ({qna.answers?.length})</h3>
         {qna.answers?.map((answer) => (
-          <article key={answer.answerId}>
+          <article key={answer.answerId} className={styles.answerWrapper}>
             <div className={styles.answerer}>
             <Avatar
-          size={40}
+          size={75}
           name={user.uid}
           variant="beam"
           onClick={()=>logout()}
+          className={styles.avatar}
           />
               <span className={styles.answererName}>{answer.answerAuthor.displayName}</span>
-              <span className={styles.answererTitle}>Assistant to the Regional Manager</span>
             </div>
             <div className={styles.answererResponse}>
               <p id="answerBody" contentEditable={isEditableA}>{answer?.answerBody}</p>

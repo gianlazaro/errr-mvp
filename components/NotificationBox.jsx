@@ -22,8 +22,11 @@ export default function NotificationBox({notifications}) {
     <div className={styles.notifBoxWrapper}>
       <ul>
         {notifications?.length > 0? notifications.map((notification) => (
-          <li key={notification}><Link href={`/${user.currentCommunity.communityName}/${notification}`}>There&apos;s a new update</Link></li>
-
+          <li key={notification}>
+            <Link href={`/${user.currentCommunity.communityName}/${notification}`}>
+              <div className={styles.notifItem}>There&apos;s a new answer on question: <strong>{notification}</strong></div>
+            </Link>
+          </li>
           )):
           <div className={styles.emptyNotif}>
           <Image src="/zeroNotif.png" width="150px" height="150px" objectFit="contain"/>

@@ -4,6 +4,7 @@ specifiers:
   axios: ^0.27.2
   boring-avatars: ^1.7.0
   date-fns: ^2.29.1
+  dompurify: ^2.3.10
   eslint: 8.21.0
   eslint-config-next: 12.2.4
   firebase: ^9.9.2
@@ -16,6 +17,7 @@ dependencies:
   axios: 0.27.2
   boring-avatars: 1.7.0
   date-fns: 2.29.1
+  dompurify: 2.3.10
   firebase: 9.9.2
   next: 12.2.4_biqbaboplfbrettd7655fr4n2y
   react: 18.2.0
@@ -1141,6 +1143,10 @@ packages:
     dependencies:
       esutils: 2.0.3
     dev: true
+
+  /dompurify/2.3.10:
+    resolution: {integrity: sha512-o7Fg/AgC7p/XpKjf/+RC3Ok6k4St5F7Q6q6+Nnm3p2zGWioAY6dh0CbbuwOhH2UcSzKsdniE/YnE2/92JcsA+g==}
+    dev: false
 
   /emoji-regex/8.0.0:
     resolution: {integrity: sha512-MSjYzcWNOA0ewAHpz0MxpYFvwg6yjy1NG3xteoqz644VCo/RPgnr1/GGt+ic3iJTzQ8Eu3TdM14SawnVUmGE6A==}

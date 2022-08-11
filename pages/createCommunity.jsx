@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useAuth } from '../contexts/AuthContext';
 import { useState } from 'react'
+import DOMPurify from 'dompurify';
 
 export default function CreateCommunity() {
   const {register} = useAuth();
@@ -8,9 +9,9 @@ export default function CreateCommunity() {
 
   function handleCreateCommunity(e) {
     e.preventDefault();
-    let communityName = e.target.communityName.value;
-    const communityLogo = e.target.communityLogo.value;
-    const communitySidebar = e.target.communitySidebar.value;
+    let communityName = DOMPurify.sanitize(e.target.communityName.value);
+    const communityLogo = DOMPurify.sanitize(e.target.communityLogo.value);
+    const communitySidebar = DOMPurify.sanitize(e.target.communitySidebar.value);
 
     communityName = communityName.split(' ').join('');
     axios.post('../api/community', {

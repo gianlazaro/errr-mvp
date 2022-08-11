@@ -18,7 +18,6 @@ export default function CommunityPage() {
   const { mutate } = useSWRConfig()
   if (!user) {
     router.push(`/`);
-    // return;
   }
 
   async function getUserMeta() {
@@ -26,9 +25,9 @@ export default function CommunityPage() {
     setMoreUserData(userRef.data());
   }
 
-  useEffect(()=> {
+  useEffect(() => {
     getUserMeta();
-  },[]);
+  }, []);
 
   const fetcher = (...args) => fetch(...args).then(res => res.json());
   const { data: questions } = useSWR(`api/questions/${user?.currentCommunity?.id}`, fetcher);
@@ -63,45 +62,50 @@ export default function CommunityPage() {
   return (
     <div className={styles.communityPageWrapper}>
       <main className={styles.mainWrapper}>
-        <div className={styles.topOfFeed}>{String(new Date())}</div>
+        <h2 style={{marginBottom: '1rem'}}>{format(new Date(), 'EEEE, MMMM io yyyy')}</h2>
         {questions?.map((q) => (
-          <article className={styles.questionListItem} key={q.q_id}>
-            <span className={styles.questionTitle}>
-              <Link href={`/${user.currentCommunity.communityName}/${q.q_id}`}><a>{q.questionTitle}</a></Link>
-            </span>
-            <div className={styles.bottomBar}>
-              <span>{q.questionAsker?.displayName} • {format(fromUnixTime(q.creationDate), 'MM/dd/yyyy')} • <a href="#">3 answers</a></span>
-              {
-                !q.watchers.includes(user.uid) &&
-                <button onClick={handleWatch} data-qid={q.q_id} className={styles.watchBtn}>
-                  <Image src="/eyeBtn.png" width="25px" height="25px" />
-                </button>
+          <Link href={`/${user.currentCommunity.communityName}/${q.q_id}`} key={q.q_id}>
+            <article className={styles.questionListItem}>
+              <span className={styles.questionTitle}>
+                <a>{q.questionTitle}</a>
+              </span>
+              <div className={styles.bottomBar}>
+                <span>{q.questionAsker?.displayName} • {format(fromUnixTime(q.creationDate), 'MM/dd/yyyy')}</span>
+                {
+                  !q.watchers.includes(user.uid) &&
+                  <button onClick={handleWatch} data-qid={q.q_id} className={styles.watchBtn}>
+                    <Image src="/eyeBtn.png" width="25px" height="25px" />
+                  </button>
 
-              }
-              <ul className={styles.watchList}>
-                {q.watchers?.map((watcher) => (
-                  <li className={styles.watchListItem} key={watcher}>
-                    {generateAvatar(watcher)}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </article>
+                }
+                <ul className={styles.watchList}>
+                  {q.watchers?.map((watcher) => (
+                    <li className={styles.watchListItem} key={watcher}>
+                      {generateAvatar(watcher)}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </article>
+          </Link>
         ))}
       </main>
       <aside className={styles.sidebarWrapper}>
         <img src={community?.communityLogo} />
-        <button className={styles.sidebarBtn}>Submit a Question</button>
+        <Link href={`${community?.communityName}/submit`}>
+          <button className={styles.sidebarBtn}>Submit a Question</button>
+        </Link>
         <div className={styles.sidebarInfo}>
           <h1>{community?.communityName}</h1>
           <p>{community?.communitySidebar}</p>
         </div>
         {
           moreUserData.admin === user?.currentCommunity?.id &&
-        <div>
-          <p>this is where you put the invite code</p>
-          {user.currentCommunity?.id}
-        </div>
+          <div className={styles.shareCommunity}>
+            <span className={styles.inviteTitle}>Community Invite Code:</span>
+            <input type="textbox" value={user.currentCommunity?.id}></input>
+            <span className={styles.warning}>(Keep it safe!)</span>
+          </div>
 
         }
       </aside>

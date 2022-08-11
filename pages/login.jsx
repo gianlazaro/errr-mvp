@@ -2,13 +2,14 @@ import { useAuth } from '../contexts/AuthContext.jsx';
 import styles from '../styles/Login.module.css';
 import Link from 'next/link'
 import Image from 'next/image';
+import DOMPurify from 'dompurify';
 
 export default function Login() {
   const { user, signIn } = useAuth();
   function handleSubmit(e) {
     e.preventDefault();
-    const email = e.target.email.value;
-    const password = e.target.password.value;
+    const email = DOMPurify.sanitize(e.target.email.value);
+    const password = DOMPurify.sanitize(e.target.password.value);
 
     signIn(email, password);
   }

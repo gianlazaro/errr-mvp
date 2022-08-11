@@ -17,7 +17,7 @@
 .notifbox {
   position: absolute;
   z-index: 358237523;
-  top: 2.5rem;
+  top: 3rem;
   right: -0.5rem;
   background: white;
   padding: 12px;
@@ -32,17 +32,29 @@
   background: black;
   color: white;
   border: none;
-  padding: 6px 0;
+  padding: 12px 0;
+  border-radius: 6px;
 }
 
 .notifBtn {
   border: 0;
   background: none;
-  margin: 0;
-  padding: 0 1rem;
+  margin-left: 1rem;
+  margin-right: 0.5rem;
+  padding: 0.5rem;
+  width: 40px;
+  height: 40px;
   position: relative;
   top: 3px;
   cursor: pointer;
+}
+
+.notifBtn:hover {
+  background: #eee;
+  border-radius: 50%;
+}
+.notifBtn:active {
+  background: #ddd;
 }
 
 .notifMarker {
@@ -51,8 +63,8 @@
   height: 11px;
   border-radius: 50%;
   position: absolute;
-  top: 0;
-  right: 15px;
+  top: 7px;
+  right: 7px;
   border: 2px solid #FAFAFA;
 }
 

@@ -5,23 +5,36 @@
   justify-content: center;
   width: 50%;
   margin: 0 auto;
+  gap: 20px;
+}
+
+@media(max-width: 1550px) {
+  .communityPageWrapper {
+    width: 70%;
+  }
 }
 
 .mainWrapper {
   flex: 3;
-  margin-top: 2rem;
+  margin-top: 8rem;
 }
 
 .questionListItem {
   position: relative;
-  line-height: 1.5rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   background: white;
   min-height: min-content;
-  padding: 18px;
+  padding: 20px 18px;
+  margin-bottom: 0.25rem;
   border-bottom: 1px solid #eee;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.questionListItem:hover {
+  outline: 1px solid #ddd;
 }
 
 .questionTitle {
@@ -70,31 +83,33 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-self: flex-start;
+  margin: 2rem 0;
+  gap: 20px;
+}
+
+.sidebarWrapper img {
+  width: 100%;
+  border-radius: 6px;
 }
 
 .sidebarInfo {
-  margin: 2rem;
   height: min-content;
   background: white;
-  padding: 1rem;
-}
-
-.topOfFeed {
-  margin: 2rem 0;
-}
-
-.sidebarBtn {
-
+  padding: 2rem 1rem;
+  border-radius: 6px;
 }
 
 .sidebarBtn {
   padding: 1rem 5rem;
   align-self: flex-end;
   border: none;
-  border-radius: 0.5rem;
+  border-radius: 6px;
   color: white;
   background: var(--button-primary);
   cursor: pointer;
+  width: 100%;
+  font-weight: 700;
 }
 
 .sidebarBtn:hover {
@@ -103,4 +118,43 @@
 
 .sidebarBtn:active {
   background: var(--button-primary-active);
+}
+
+.shareCommunity {
+  padding: 1rem 1rem;
+  background: #111;
+  color: white;
+  border-radius: 6px;
+  display: flex;
+  max-height: min-content;
+  flex-direction: column;
+  align-items: flex-start;
+
+}
+
+.inviteTitle {
+  font-weight: 700;
+  color: yellow;
+}
+
+.shareCommunity input {
+  width: 100%;
+  height: 2.5rem;
+  border-radius: 6px;
+  margin: 1rem 0 0 0;
+  padding: 1.5rem 1rem;
+  font-size: 1.25rem;
+}
+
+.warning {
+  font-style: italic;
+  font-size: 0.85rem;
+  margin: 0.25rem 0;
+}
+
+.sidebarInfo h1 {
+  /* text-align: center; */
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #eee;
 }

@@ -1,0 +1,88 @@
+.fieldGroupWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 600px;
+  margin: 4rem auto;
+  padding: 2rem;
+  border-radius: 12px;
+  background: white;
+}
+
+.fieldGroupWrapper h1 {
+  margin: 1rem 0 2rem 0;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #EEE;
+}
+
+.fieldGroup {
+  margin-bottom: 1rem;
+}
+
+.fieldGroup input {
+  border: none;
+  height: 2.5rem;
+  width: 100%;
+  border-radius: 6px;
+  background: #FAFAFA;
+  border: 1px solid #ddd;
+}
+
+.fieldGroup label {
+  font-weight: 600;
+}
+
+.mainWrapper button {
+  padding: 1rem 5rem;
+  align-self: flex-end;
+  border: none;
+  border-radius: 0.5rem;
+  color: #FAFAFA;
+  background: var(--button-primary);
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.mainWrapper button:hover {
+  background: var(--button-primary-hover);
+}
+.mainWrapper button:active {
+  background: var(--button-primary-active)
+}
+
+.fieldGroupFL {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.fieldGroupFL input {
+  border: none;
+  height: 2.5rem;
+  width: 100%;
+  border-radius: 6px;
+  background: #FAFAFA;
+  border: 1px solid #ddd;
+}
+
+.fieldGroupFL label {
+  min-width: max-content;
+  font-weight: 600;
+}
+
+.buttonWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.error {
+  border: 1px solid red;
+}
+
+.errorMessage {
+  font-weight: 700;
+  color: red;
+}

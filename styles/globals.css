@@ -24,6 +24,7 @@
 }
 html, body {
   height: 100%;
+  margin-bottom: 6rem;
 }
 body {
   color: #1D1D1F;
