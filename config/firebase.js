@@ -3,12 +3,12 @@ import { getAuth, connectAuthEmulator } from 'firebase/auth';
 import { getFirestore, connectFirestoreEmulator } from 'firebase/firestore';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCrDDpVrgvq62ZuJj5-519SL6IlJCsunpw",
-  authDomain: "errr-4d783.firebaseapp.com",
-  projectId: "errr-4d783",
-  storageBucket: "errr-4d783.appspot.com",
-  messagingSenderId: "38979838952",
-  appId: "1:38979838952:web:fcf348598e058fd9ae7a5d"
+  apiKey: process.env.NEXT_PUBLIC_APIKEY,
+  authDomain: process.env.NEXT_PUBLIC_AUTHDOMAIN,
+  projectId: process.env.NEXT_PUBLIC_PROJECTID,
+  storageBucket: process.env.NEXT_PUBLIC_STORAGEBUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_MESSAGINGSENDERID,
+  appId: process.env.NEXT_PUBLIC_APPID
 };
 
 // Initialize Firebase
