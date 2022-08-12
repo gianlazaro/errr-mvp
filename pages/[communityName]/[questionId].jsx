@@ -8,11 +8,12 @@ import { db } from '../../config/firebase';
 import Image from 'next/image';
 import Avatar from 'boring-avatars';
 import DOMPurify from 'dompurify';
-import useSWR from 'swr';
+import useSWR, {useSWRConfig} from 'swr';
 
 export default function QuestionPage() {
   const router = useRouter();
   const { questionId } = router.query;
+  const { mutate } = useSWRConfig();
 
   const fetcher = (...args) => fetch(...args).then(res => res.json());
   const { data: qna } = useSWR(`/api/qna/${questionId}`, fetcher)
@@ -23,9 +24,6 @@ export default function QuestionPage() {
   const [isEditableA, setIsEditableA] = useState(false);
   const [isVisibleQ, setIsVisibleQ] = useState(false);
   const [isVisibleA, setIsVisibleA] = useState(false);
-  const refreshData = () => {
-    router.replace(router.asPath);
-  }
 
   async function getUserMeta() {
     const userRef = await getDoc(doc(db, 'users', user.uid))
@@ -55,13 +53,13 @@ export default function QuestionPage() {
       answerBody
     });
     e.target.reset();
-    refreshData();
+    mutate(`/api/qna/${questionId}`);
   }
 
   function handleDeleteAnswer(ans) {
     if (user.uid === ans.answerAuthor.uid || !!moreUserData.admin) {
       deleteDoc(doc(db, 'answers', ans.answerId)).then(() => {
-        refreshData();
+        mutate(`/api/qna/${questionId}`);
       })
     } else {
       console.log('you didnt ask this question?');
