@@ -8,46 +8,15 @@ import { db } from '../../config/firebase';
 import Image from 'next/image';
 import Avatar from 'boring-avatars';
 import DOMPurify from 'dompurify';
+import useSWR from 'swr';
 
-export async function getServerSideProps(ctx) {
-  const { questionId } = ctx.params;
-  async function fetchData() {
-    let resultingObj = {};
-    const questionsRef = doc(db, 'questions', questionId);
-    const question = await getDoc(questionsRef);
-    resultingObj.question = { ...question.data(), questionId: question.id };
-
-    // means that person does not have access to question, leave
-    if (!resultingObj.question) {
-      return {
-        redirect: {
-          destination: '/'
-        }
-      }
-    }
-
-    // get query of all answers of the question id
-    let answers = [];
-    const answerQuery = query(collection(db, 'answers'), where('questionId', '==', questionId), orderBy('creationDate', 'desc'));
-    const docs = await getDocs(answerQuery);
-    docs.forEach((doc) => {
-      answers.push({ ...doc.data(),answerId: doc.id });
-    })
-    resultingObj.answers = answers;
-    return resultingObj;
-  };
-
-  const data = await fetchData();
-  return {
-    props: {
-      data
-    }
-  }
-}
-
-export default function QuestionPage({ data: qna }) {
+export default function QuestionPage() {
   const router = useRouter();
   const { questionId } = router.query;
+
+  const fetcher = (...args) => fetch(...args).then(res => res.json());
+  const {data: qna} = useSWR(`/api/qna/${questionId}` ,fetcher)
+
   const { user } = useAuth();
   const [moreUserData, setMoreUserData] = useState({});
   const [isEditableQ, setIsEditableQ] = useState(false);
@@ -141,22 +110,22 @@ export default function QuestionPage({ data: qna }) {
   return (
     <main className={styles.main}>
       <article className={styles.questionWrapper}>
-        <h3 className={styles.sectionTitle} contentEditable={isEditableQ} id="questionTitle">{qna.question?.questionTitle}</h3>
+        <h3 className={styles.sectionTitle} contentEditable={isEditableQ} id="questionTitle">{qna?.question?.questionTitle}</h3>
         <p id="questionBody" className={styles.questionBody} contentEditable={isEditableQ}>
-          {qna.question?.questionBody}
+          {qna?.question?.questionBody}
         </p>
         <div className={styles.bottomBar}>
-          <span>Asked by {qna.question?.questionAsker.displayName}</span>
+          <span>Asked by {qna?.question?.questionAsker.displayName}</span>
           {
-            (user?.uid === qna.question.questionAsker.uid || !!moreUserData.admin) &&
+            (user?.uid === qna?.question.questionAsker.uid || !!moreUserData.admin) &&
             <div className={styles.actionsWrapperQ}>
               <Image src="/moreBtn.png" width="30px" height="30px" className={styles.moreIcon} onClick={() => setIsVisibleQ(!isVisibleQ)} />
               {isVisibleQ &&
                 <div className={styles.buttonsWrapperQ}>
-                  <button onClick={() => handleUpdateQuestion(qna.question)}>
+                  <button onClick={() => handleUpdateQuestion(qna?.question)}>
                     {isEditableQ ? 'Save' : 'Update'}
                   </button>
-                  <button onClick={() => handleDeleteQuestion(qna.question)}>
+                  <button onClick={() => handleDeleteQuestion(qna?.question)}>
                     Delete
                   </button>
                 </div>
@@ -172,8 +141,8 @@ export default function QuestionPage({ data: qna }) {
         </form>
       </div>
       <div className={styles.answers}>
-        <h3 className={styles.sectionTitle}>Answers ({qna.answers?.length})</h3>
-        {qna.answers?.map((answer) => (
+        <h3 className={styles.sectionTitle}>Answers ({qna?.answers?.length})</h3>
+        {qna?.answers?.map((answer) => (
           <article key={answer.answerId} className={styles.answerWrapper}>
             <div className={styles.answerer}>
             <Avatar
