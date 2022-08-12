@@ -5,6 +5,11 @@ import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 
 function MyApp({ Component, pageProps }) {
+  const router = useRouter();
+
+  router.events?.on('routeChangeStart', ()=>(
+    <div className="loading_icon"></div>
+  ))
   return (
     <AuthContextProvider>
       <Layout>

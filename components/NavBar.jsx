@@ -33,7 +33,7 @@ function NavBar() {
   // ping the server every 60 seconds for changes in any of the questions watched
   const fetcher = (...args) => fetch(...args).then(res => res.json());
   const { data: notifications, error } = useSWR(`/api/notifications/${user?.uid}`, fetcher
-  // , { refreshInterval: 1000 }
+  , { refreshInterval: 1000 }
   );
 
   return (
