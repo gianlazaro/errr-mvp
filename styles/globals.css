@@ -83,7 +83,7 @@ a {
 div.loading_icon{
   height: 40px;
   width: 40px;
-  margin: 0 auto;
+  margin: 20% auto;
   border-top: 5px solid var(--button-primary);
   border-right: 5px solid var(--button-primary-hover);
   border-bottom: 5px solid var(--button-primary-active);

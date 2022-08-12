@@ -15,7 +15,7 @@ export default function QuestionPage() {
   const { questionId } = router.query;
 
   const fetcher = (...args) => fetch(...args).then(res => res.json());
-  const {data: qna} = useSWR(`/api/qna/${questionId}` ,fetcher)
+  const { data: qna } = useSWR(`/api/qna/${questionId}`, fetcher)
 
   const { user } = useAuth();
   const [moreUserData, setMoreUserData] = useState({});
@@ -32,7 +32,7 @@ export default function QuestionPage() {
     setMoreUserData(userRef.data());
   }
 
-  useEffect(()=> {
+  useEffect(() => {
     getUserMeta();
   }, []);
 
@@ -111,143 +111,78 @@ export default function QuestionPage() {
     <main className={styles.main}>
       {
         qna ?
-        <>
-        <article className={styles.questionWrapper}>
-        <h3 className={styles.sectionTitle} contentEditable={isEditableQ} id="questionTitle">{qna?.question?.questionTitle}</h3>
-        <p id="questionBody" className={styles.questionBody} contentEditable={isEditableQ}>
-          {qna?.question?.questionBody}
-        </p>
-        <div className={styles.bottomBar}>
-          <span>Asked by {qna?.question?.questionAsker.displayName}</span>
-          {
-            (user?.uid === qna?.question.questionAsker.uid || !!moreUserData.admin) &&
-            <div className={styles.actionsWrapperQ}>
-              <Image src="/moreBtn.png" width="30px" height="30px" className={styles.moreIcon} onClick={() => setIsVisibleQ(!isVisibleQ)} />
-              {isVisibleQ &&
-                <div className={styles.buttonsWrapperQ}>
-                  <button onClick={() => handleUpdateQuestion(qna?.question)}>
-                    {isEditableQ ? 'Save' : 'Update'}
-                  </button>
-                  <button onClick={() => handleDeleteQuestion(qna?.question)}>
-                    Delete
-                  </button>
-                </div>
-              }
-            </div>
-          }
-        </div>
-      </article>
-      <div className={styles.answerbox}>
-        <form onSubmit={handleSubmit} className={styles.formWrapper}>
-          <textarea placeholder="Make sure to answer concisely without taking the opportunity away from the other person." id="answerField" required></textarea>
-          <input type="submit" />
-        </form>
-      </div>
-      <div className={styles.answers}>
-        <h3 className={styles.sectionTitle}>Answers ({qna?.answers?.length})</h3>
-        {qna?.answers?.map((answer) => (
-          <article key={answer.answerId} className={styles.answerWrapper}>
-            <div className={styles.answerer}>
-            <Avatar
-          size={75}
-          name={answer.answerAuthor.uid}
-          variant="beam"
-          onClick={()=>logout()}
-          className={styles.avatar}
-          />
-              <span className={styles.answererName}>{answer.answerAuthor.displayName}</span>
-            </div>
-            <div className={styles.answererResponse}>
-              <p id="answerBody" contentEditable={isEditableA}>{answer?.answerBody}</p>
-            </div>
-            {(user?.uid === answer.answerAuthor.uid || !!moreUserData.admin) &&
-              <div className={styles.actionsWrapperA}>
-                <Image src="/moreBtn.png" width="30px" height="30px" className={styles.moreIcon} onClick={() => setIsVisibleA(!isVisibleA)} />
+          <>
+            <article className={styles.questionWrapper}>
+              <h3 className={styles.sectionTitle} contentEditable={isEditableQ} id="questionTitle">{qna?.question?.questionTitle}</h3>
+              <p id="questionBody" className={styles.questionBody} contentEditable={isEditableQ}>
+                {qna?.question?.questionBody}
+              </p>
+              <div className={styles.bottomBar}>
+                <span>Asked by {qna?.question?.questionAsker.displayName}</span>
                 {
-                  isVisibleA &&
-                  <div className={styles.buttonsWrapperA}>
-                    <button onClick={(e) => handleUpdateAnswer(answer)}>
-                      {isEditableA ? 'Save' : 'Update'}
-                    </button>
-                    <button onClick={(e) => handleDeleteAnswer(answer)}>Delete</button>
+                  (user?.uid === qna?.question.questionAsker.uid || !!moreUserData.admin) &&
+                  <div className={styles.actionsWrapperQ}>
+                    <Image src="/moreBtn.png" width="30px" height="30px" className={styles.moreIcon} onClick={() => setIsVisibleQ(!isVisibleQ)} />
+                    {isVisibleQ &&
+                      <div className={styles.buttonsWrapperQ}>
+                        <button onClick={() => handleUpdateQuestion(qna?.question)}>
+                          {isEditableQ ? 'Save' : 'Update'}
+                        </button>
+                        <button onClick={() => handleDeleteQuestion(qna?.question)}>
+                          Delete
+                        </button>
+                      </div>
+                    }
                   </div>
-
                 }
               </div>
-            }
-          </article>
-        ))}
-      </div>
-        </>
-        :
-        <div className="loading_icon"></div>
+            </article>
+            <div className={styles.answerbox}>
+              <form onSubmit={handleSubmit} className={styles.formWrapper}>
+                <textarea placeholder="Make sure to answer concisely without taking the opportunity away from the other person." id="answerField" required></textarea>
+                <input type="submit" />
+              </form>
+            </div>
+            <div className={styles.answers}>
+              <h3 className={styles.sectionTitle}>Answers ({qna?.answers?.length})</h3>
+              {qna?.answers?.map((answer) => (
+                <article key={answer.answerId} className={styles.answerWrapper}>
+                  <div className={styles.answerer}>
+                    <Avatar
+                      size={75}
+                      name={answer.answerAuthor.uid}
+                      variant="beam"
+                      onClick={() => logout()}
+                      className={styles.avatar}
+                    />
+                    <span className={styles.answererName}>{answer.answerAuthor.displayName}</span>
+                  </div>
+                  <div className={styles.answererResponse}>
+                    <p id="answerBody" contentEditable={isEditableA}>{answer?.answerBody}</p>
+                  </div>
+                  {(user?.uid === answer.answerAuthor.uid || !!moreUserData.admin) &&
+                    <div className={styles.actionsWrapperA}>
+                      <Image src="/moreBtn.png" width="30px" height="30px" className={styles.moreIcon} onClick={() => setIsVisibleA(!isVisibleA)} />
+                      {
+                        isVisibleA &&
+                        <div className={styles.buttonsWrapperA}>
+                          <button onClick={(e) => handleUpdateAnswer(answer)}>
+                            {isEditableA ? 'Save' : 'Update'}
+                          </button>
+                          <button onClick={(e) => handleDeleteAnswer(answer)}>Delete</button>
+                        </div>
+
+                      }
+                    </div>
+                  }
+                </article>
+              ))}
+            </div>
+          </>
+          :
+          <div className="loading_icon"></div>
       }
-      <article className={styles.questionWrapper}>
-        <h3 className={styles.sectionTitle} contentEditable={isEditableQ} id="questionTitle">{qna?.question?.questionTitle}</h3>
-        <p id="questionBody" className={styles.questionBody} contentEditable={isEditableQ}>
-          {qna?.question?.questionBody}
-        </p>
-        <div className={styles.bottomBar}>
-          <span>Asked by {qna?.question?.questionAsker.displayName}</span>
-          {
-            (user?.uid === qna?.question.questionAsker.uid || !!moreUserData.admin) &&
-            <div className={styles.actionsWrapperQ}>
-              <Image src="/moreBtn.png" width="30px" height="30px" className={styles.moreIcon} onClick={() => setIsVisibleQ(!isVisibleQ)} />
-              {isVisibleQ &&
-                <div className={styles.buttonsWrapperQ}>
-                  <button onClick={() => handleUpdateQuestion(qna?.question)}>
-                    {isEditableQ ? 'Save' : 'Update'}
-                  </button>
-                  <button onClick={() => handleDeleteQuestion(qna?.question)}>
-                    Delete
-                  </button>
-                </div>
-              }
-            </div>
-          }
-        </div>
-      </article>
-      <div className={styles.answerbox}>
-        <form onSubmit={handleSubmit} className={styles.formWrapper}>
-          <textarea placeholder="Make sure to answer concisely without taking the opportunity away from the other person." id="answerField" required></textarea>
-          <input type="submit" />
-        </form>
-      </div>
-      <div className={styles.answers}>
-        <h3 className={styles.sectionTitle}>Answers ({qna?.answers?.length})</h3>
-        {qna?.answers?.map((answer) => (
-          <article key={answer.answerId} className={styles.answerWrapper}>
-            <div className={styles.answerer}>
-            <Avatar
-          size={75}
-          name={answer.answerAuthor.uid}
-          variant="beam"
-          onClick={()=>logout()}
-          className={styles.avatar}
-          />
-              <span className={styles.answererName}>{answer.answerAuthor.displayName}</span>
-            </div>
-            <div className={styles.answererResponse}>
-              <p id="answerBody" contentEditable={isEditableA}>{answer?.answerBody}</p>
-            </div>
-            {(user?.uid === answer.answerAuthor.uid || !!moreUserData.admin) &&
-              <div className={styles.actionsWrapperA}>
-                <Image src="/moreBtn.png" width="30px" height="30px" className={styles.moreIcon} onClick={() => setIsVisibleA(!isVisibleA)} />
-                {
-                  isVisibleA &&
-                  <div className={styles.buttonsWrapperA}>
-                    <button onClick={(e) => handleUpdateAnswer(answer)}>
-                      {isEditableA ? 'Save' : 'Update'}
-                    </button>
-                    <button onClick={(e) => handleDeleteAnswer(answer)}>Delete</button>
-                  </div>
 
-                }
-              </div>
-            }
-          </article>
-        ))}
-      </div>
     </main>
   )
 }
