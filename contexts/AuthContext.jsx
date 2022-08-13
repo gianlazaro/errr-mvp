@@ -41,7 +41,7 @@ export function AuthContextProvider({ children }) {
     // query users collection for community id
     return signInWithEmailAndPassword(auth, username, password)
       .then(() => {
-        router.push(`/${currentCommunity.communityName}`)
+        router.push(`/`)
     })
   }
 

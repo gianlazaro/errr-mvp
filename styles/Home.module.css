@@ -7,7 +7,8 @@
   }
 }
 
-.mainWrapper {}
+.mainWrapper {
+}
 
 .catchline {
   display: flex;
@@ -35,7 +36,7 @@
 .aboveTheFold {
   width: 100%;
   background: #FAFAFA;
-  height: 500px;
+  height: 60vh;
 }
 
 .aboveTheFold button {
@@ -143,7 +144,7 @@
   padding: 3rem 2rem;
   border-radius: 12px;
   justify-content: space-between;
-  width: 75%;
+  width: 55%;
   position: relative;
   /* font-weight: 00; */
 }
@@ -185,4 +186,13 @@
   position: absolute;
   top: 1rem;
   right:1rem;
+}
+
+@media(max-width: 1550px) {
+  .sectionContainer {
+    width: 75%
+  }
+  .aboveTheFold {
+    height: 60vh;
+  }
 }
