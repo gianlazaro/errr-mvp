@@ -45,7 +45,7 @@ export default function Home() {
                       Can you define the different lifecycles in React?
                     </article>
                     <article className={styles.item}>
-                      Did Minggui say we don't have toy problems tonight?
+                      Did Minggui say we don&apos;t have toy problems tonight?
                     </article>
                   </div>
               </div>
