@@ -40,7 +40,9 @@ export function AuthContextProvider({ children }) {
   function signIn(username, password) {
     // query users collection for community id
     return signInWithEmailAndPassword(auth, username, password)
-      .then(() => router.push('/'))
+      .then(() => {
+        router.push(`/${currentCommunity.communityName}`)
+    })
   }
 
   async function register(username, password, displayName, communityId, isAdmin) {
@@ -68,7 +70,7 @@ export function AuthContextProvider({ children }) {
           admin: isAdmin ? communityId : null
         });
 
-        router.push('/');
+        router.push(`/${currentCommunity.communityName}`);
       });
   }
 

@@ -38,7 +38,7 @@ function NavBar() {
 
   return (
     <nav className={styles.nav}>
-      <span className={styles.logo}><Link href="/">err.</Link></span>
+      <span className={styles.logo}><Link href={user ? `/${user.currentCommunity.communityName}` : `/`}>err.</Link></span>
       <div className={styles.rightMenuCluster}>
         <span>
           {currUser !== 'stranger' ?

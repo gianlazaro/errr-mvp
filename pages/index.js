@@ -33,6 +33,22 @@ export default function Home() {
               <div className={styles.alert}>Here is a demo community code to get you started:
                 <input type="textbox" value="oD27ZJLhcBRqvGITJMcF" />
               </div>
+                <div className={styles.sectionContainer}>
+                  <span className={styles.question}>
+                    Your questions have been asked and answered multiples times throughout the day
+                  </span>
+                  <div className={styles.itemsWrapper}>
+                    <article className={styles.item}>
+                      When do you use flexbox over CSS grid?
+                    </article>
+                    <article className={styles.item}>
+                      Can you define the different lifecycles in React?
+                    </article>
+                    <article className={styles.item}>
+                      Did Minggui say we don't have toy problems tonight?
+                    </article>
+                  </div>
+              </div>
             </div>
           </main>
         </div>

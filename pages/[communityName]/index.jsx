@@ -18,6 +18,10 @@ export default function CommunityPage() {
   const { mutate } = useSWRConfig()
 
   async function getUserMeta() {
+    if(!user) {
+      router.push('/');
+      return;
+    }
     const userRef = await getDoc(doc(db, 'users', user.uid))
     setMoreUserData(userRef.data());
   }
@@ -26,18 +30,18 @@ export default function CommunityPage() {
   const { data: questions } = useSWR(`api/questions/${user?.currentCommunity?.id}`, fetcher);
   const { data: community } = useSWR(`api/community/${user?.currentCommunity?.id}`, fetcher);
 
-  useEffect(() => {
-    getUserMeta();
-  }, []);
+    useEffect(() => {
+      getUserMeta();
+    }, [user]);
+
+  if(!questions || !community) {
+    router.push('/');
+    return;
+  }
 
   if (router.isFallback) {
     return <div className='loading-icon'></div>
   }
-  if (!user) {
-    router.push(`/`);
-  }
-
-
 
   function generateAvatar(name) {
     return (
@@ -65,23 +69,26 @@ export default function CommunityPage() {
 
   return (
     <div className={styles.communityPageWrapper}>
-      <main className={styles.mainWrapper}>
+      {
+        user &&
+        <>
+        <main className={styles.mainWrapper}>
         <h2 style={{marginBottom: '1rem'}}>{format(new Date(), 'EEEE, MMMM do yyyy')}</h2>
         {
-          questions?.length === 0 &&
+          questions.length === 0 &&
           <div className={styles.emptyFront}>
             <em>It seems pretty quiet here 🦗</em>
             <em style={{fontWeight: "700"}}>Submit a Question!</em>
           </div>
         }
-        {questions?.map((q) => (
+        {questions.map((q) => (
           <Link href={`/${user.currentCommunity.communityName}/${q.q_id}`} key={q.q_id}>
             <article className={styles.questionListItem}>
               <span className={styles.questionTitle}>
                 <a>{q.questionTitle}</a>
               </span>
               <div className={styles.bottomBar}>
-                <span>{q.questionAsker?.displayName} • {format(fromUnixTime(q.creationDate), 'MM/dd/yyyy')}</span>
+                <span>{q.questionAsker.displayName} • {format(fromUnixTime(q.creationDate), 'MM/dd/yyyy')}</span>
                 {
                   !q.watchers.includes(user.uid) &&
                   <button onClick={handleWatch} data-qid={q.q_id} className={styles.watchBtn}>
@@ -90,7 +97,7 @@ export default function CommunityPage() {
 
                 }
                 <ul className={styles.watchList}>
-                  {q.watchers?.map((watcher) => (
+                  {q.watchers.map((watcher) => (
                     <li className={styles.watchListItem} key={watcher}>
                       {generateAvatar(watcher)}
                     </li>
@@ -102,8 +109,8 @@ export default function CommunityPage() {
         ))}
       </main>
       <aside className={styles.sidebarWrapper}>
-        <img src={community?.communityLogo} />
-        <Link href={`${community?.communityName}/submit`}>
+        <img src={community.communityLogo} />
+        <Link href={`${community.communityName}/submit`}>
           <button className={styles.sidebarBtn}>Submit a Question</button>
         </Link>
         <div className={styles.sidebarInfo}>
@@ -111,15 +118,17 @@ export default function CommunityPage() {
           <p>{community?.communitySidebar}</p>
         </div>
         {
-          moreUserData.admin === user?.currentCommunity?.id &&
+          moreUserData.admin === user.currentCommunity?.id &&
           <div className={styles.shareCommunity}>
             <span className={styles.inviteTitle}>Community Invite Code:</span>
-            <input type="textbox" value={user.currentCommunity?.id}></input>
+            <input type="textbox" defaultValue={user.currentCommunity?.id}></input>
             <span className={styles.warning}>(Keep it safe!)</span>
           </div>
 
         }
       </aside>
+        </>
+      }
     </div>
   )
 }
