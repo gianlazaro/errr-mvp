@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import { onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, signInAnonymously, updateProfile } from 'firebase/auth';
+import { onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updateProfile } from 'firebase/auth';
 import { collection, query, where, doc, getDoc, updateDoc, arrayUnion, setDoc, get } from 'firebase/firestore';
 import { db, auth } from '../config/firebase.js';
 import { useRouter } from 'next/router';

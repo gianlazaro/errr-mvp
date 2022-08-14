@@ -8,7 +8,12 @@ export default async function qna(req, res) {
     async function fetchData() {
       let resultingObj = {};
       const questionsRef = doc(db, 'questions', questionId);
+
       const question = await getDoc(questionsRef);
+      if(!question.data()) {
+        res.status(404);
+        return;
+      }
       resultingObj.question = { ...question.data(), questionId: question.id };
 
       // get query of all answers of the question id

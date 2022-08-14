@@ -66,7 +66,9 @@ function NavBar() {
 
         <div className={styles.avatarWrapper} onClick={() => {
           if(user) {
-            logout()
+            logout().then(()=>{
+              router.push('/');
+            })
           }
           }}>
           <Avatar

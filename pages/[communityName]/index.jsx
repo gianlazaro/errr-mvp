@@ -1,4 +1,4 @@
-import { useRouter } from 'next/router';
+import { useRouter, asPath } from 'next/router';
 import Link from 'next/link';
 import Image from 'next/image';
 import styles from '../../styles/CommunityPage.module.css';
@@ -19,9 +19,10 @@ export default function CommunityPage() {
 
   async function getUserMeta() {
     if(!user) {
-      router.push('/');
+      router.push('/401', `${asPath.slice(1)}`);
       return;
     }
+
     const userRef = await getDoc(doc(db, 'users', user.uid))
     setMoreUserData(userRef.data());
   }
@@ -30,12 +31,16 @@ export default function CommunityPage() {
   const { data: questions } = useSWR(`api/questions/${user?.currentCommunity?.id}`, fetcher);
   const { data: community } = useSWR(`api/community/${user?.currentCommunity?.id}`, fetcher);
 
+  if(asPath.slice(1) !== user?.currentCommunity.communityName) {
+    router.push('/401', `${asPath}`)
+  }
+
     useEffect(() => {
       getUserMeta();
     }, [user]);
 
   if(!questions || !community) {
-    router.push('/');
+    router.push(`/${user?.currentCommunity.communityName}`);
     return;
   }
 
@@ -81,7 +86,9 @@ export default function CommunityPage() {
             <em style={{fontWeight: "700"}}>Submit a Question!</em>
           </div>
         }
-        {questions.map((q) => (
+        {
+        questions?
+        questions.map((q) => (
           <Link href={`/${user.currentCommunity.communityName}/${q.q_id}`} key={q.q_id}>
             <article className={styles.questionListItem}>
               <span className={styles.questionTitle}>
@@ -106,7 +113,11 @@ export default function CommunityPage() {
               </div>
             </article>
           </Link>
-        ))}
+        ))
+        :
+        <div className="loading_icon"></div>
+      }
+
       </main>
       <aside className={styles.sidebarWrapper}>
         <img src={community.communityLogo} />

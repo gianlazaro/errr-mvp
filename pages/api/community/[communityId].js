@@ -6,6 +6,6 @@ export default async function community(req, res) {
     const {communityId} = req.query;
 
     const community = await getDoc(doc(db, 'communities', communityId));
-    res.send(community.data());
+    res.send({...community.data(), id: community.id});
   }
 }

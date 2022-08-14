@@ -1,4 +1,4 @@
-import { useRouter } from 'next/router';
+import { useRouter, asPath } from 'next/router';
 import styles from '../../styles/QuestionPage.module.css'
 import { useState, useEffect } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
@@ -15,10 +15,16 @@ export default function QuestionPage() {
   const { questionId } = router.query;
   const { mutate } = useSWRConfig();
 
+
   const fetcher = (...args) => fetch(...args).then(res => res.json());
-  const { data: qna } = useSWR(`/api/qna/${questionId}`, fetcher)
+  const { data: qna, error } = useSWR(`/api/qna/${questionId}`, fetcher)
+
+  if(error) {
+    router.push('/404', `/${asPath.slice(1)}`)
+  }
 
   const { user } = useAuth();
+
   const [moreUserData, setMoreUserData] = useState({});
   const [isEditableQ, setIsEditableQ] = useState(false);
   const [isEditableA, setIsEditableA] = useState(false);
@@ -33,10 +39,6 @@ export default function QuestionPage() {
   useEffect(() => {
     getUserMeta();
   }, []);
-
-  if (router.isFallback) {
-    return <div className='loading-icon'></div>
-  }
 
   if (!user) {
     router.push('/');
@@ -101,14 +103,10 @@ export default function QuestionPage() {
     }
   }
 
-  function visiblity(answerId) {
-
-  }
-
   return (
     <main className={styles.main}>
       {
-        qna ?
+        qna?.question.questionTitle ?
           <>
             <article className={styles.questionWrapper}>
               <h3 className={styles.sectionTitle} contentEditable={isEditableQ} id="questionTitle">{qna?.question?.questionTitle}</h3>
